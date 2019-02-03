@@ -1,1 +1,1 @@
-web: dragons-server
+web: dragons

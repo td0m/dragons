@@ -1,5 +1,5 @@
 
-# dragons-server
+# dragons
 
 A barebones Go app, which can easily be deployed to Heroku.
 
@@ -10,8 +10,8 @@ This application supports the [Getting Started with Go on Heroku](https://devcen
 Make sure you have [Go](http://golang.org/doc/install) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
 
 ```sh
-$ go get -u github.com/d0minikt/dragons-server
-$ cd $GOPATH/src/github.com/d0minikt/dragons-server
+$ go get -u github.com/d0minikt/dragons
+$ cd $GOPATH/src/github.com/d0minikt/dragons
 $ heroku local
 ```
 

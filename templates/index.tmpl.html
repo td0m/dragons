@@ -11,7 +11,7 @@
     <h1>Getting Started with Go on Heroku</h1>
       <p>This is a sample Go application deployed to Heroku. It's a reasonably simple app - but a good foundation for understanding how to get the most out of the Heroku platform.</p>
       <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-go"><span class="glyphiconglyphicon-flash"></span> Getting Started with Go</a>
-      <a type="button" class="btn btn-lg btn-primary" href="https://github.com/heroku/go-getting-started"><span class="glyphiconglyphicon-download"></span> Source on GitHub</a>
+      <a type="button" class="btn btn-lg btn-primary" href="https://github.com/d0minikt/dragons-server"><span class="glyphiconglyphicon-download"></span> Source on GitHub</a>
   </div>
 </div>
 <div class="container">
@@ -23,7 +23,7 @@
     <div class="col-md-6">
       <h3><span class="glyphicon glyphicon-info-sign"></span> How this sample app works</h3>
       <ul>
-          <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/go-getting-started">Heroku Button</a> on the repository.</li>
+          <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/d0minikt/dragons-server">Heroku Button</a> on the repository.</li>
 
           <li>When Heroku received the source code it used the go tool chain to compile the application along with any vendored dependencies and created a deployable slug.</li>
           <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
@@ -36,8 +36,8 @@
         <li>If you are following the <a href="https://devcenter.heroku.com/articles/getting-started-with-go">Getting Started</a> guide, then please head back to the tutorial and follow the next steps!</li>
         <li>If you deployed this app by deploying the Heroku Button, then in a command line shell, run:</li>
         <ul>
-          <li><code>go get github.com/heroku/go-getting-started</code> - this will create a local copy of the source code for the app, compile and install the generated executables in <code>$GOPATH/bin</code></li>
-          <li><code>cd $GOPATH/src/github.com/heroku/go-getting-started</code> - change directory into the local source code repository</li>
+          <li><code>go get github.com/d0minikt/dragons-server</code> - this will create a local copy of the source code for the app, compile and install the generated executables in <code>$GOPATH/bin</code></li>
+          <li><code>cd $GOPATH/src/github.com/d0minikt/dragons-server</code> - change directory into the local source code repository</li>
           <li><code>heroku git:remote -a &lt;your-app-name&gt;</code> - associate the Heroku app with the repository</li>
           <li>You'll now be set up to run the app locally, or <a href="https://devcenter.heroku.com/articles/getting-started-with-go#push-local-changes">deploy changes</a> to Heroku</li>
         </ul>

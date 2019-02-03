@@ -36,7 +36,7 @@ class AppState {
 }
 
 class App extends Component<{}, AppState> {
-  static url = "ws://localhost:80/ws";
+  static url = "ws://dragons-land.herokuapp.com/ws";
 
   private websocket: WebSocket;
   private terminalInput = React.createRef<HTMLInputElement>();

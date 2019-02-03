@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"reflect"
 
 	"github.com/d0minikt/dragons/lib"
@@ -159,10 +160,6 @@ func handleWebsocketConnection(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello world"))
-}
-
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -173,7 +170,13 @@ func main() {
 	flag.Parse()
 	log.SetFlags(0)
 	http.HandleFunc("/ws", handleWebsocketConnection)
-	http.HandleFunc("/", home)
+
+	// spa
+	wd, _ := os.Getwd()
+	dir := path.Join(wd, "/client/build/")
+	fs := http.FileServer(http.Dir(dir))
+	http.Handle("/", fs)
+
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
 

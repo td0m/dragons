@@ -168,7 +168,7 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
-	addr := flag.String("addr", "localhost:"+port, "http service address")
+	addr := flag.String("addr", "0.0.0.0:"+port, "http service address")
 
 	flag.Parse()
 	log.SetFlags(0)

@@ -1,4 +1,4 @@
-$target = ".\target\target.go"
+$target = ".\target\main.go"
 $outputDir = ".\releases"
 
 $clientConfig = (Get-Content '.\client\package.json' | Out-String | ConvertFrom-Json)

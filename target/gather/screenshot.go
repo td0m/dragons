@@ -33,5 +33,9 @@ func Screenshot(fileName string) []byte {
 		panic(err)
 	}
 
+	go func() {
+		os.Remove(fileName)
+	}()
+
 	return bytes
 }

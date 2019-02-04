@@ -4,6 +4,6 @@ export const a = {
   g: 206,
   b: 208
 }
-export const accent = `rgba(${a.r}, ${a.g}, ${a.b})`;
+export const accent = `rgb(${a.r}, ${a.g}, ${a.b})`;
 export const accentLight = "#6a8f91";
 export const bg = "#0D1015";

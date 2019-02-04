@@ -175,7 +175,7 @@ func main() {
 	wd, _ := os.Getwd()
 	dir := path.Join(wd, "/client/build/")
 	fs := http.FileServer(http.Dir(dir))
-	http.Handle("/app", fs)
+	http.Handle("/", fs)
 
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }

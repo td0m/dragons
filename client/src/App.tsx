@@ -45,6 +45,8 @@ class App extends Component<{}, AppState> {
 
   constructor(props: any) {
     super(props);
+    const {hostname} = window.location;
+    if (hostname === "localhost" || hostname === "127.0.0.1") App.url = "ws://localhost/ws";
     this.websocket = new WebSocket(App.url);
     this.initConnection();
 

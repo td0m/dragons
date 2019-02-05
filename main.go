@@ -162,7 +162,8 @@ func handleWebsocketConnection(w http.ResponseWriter, r *http.Request) {
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		log.Fatal("$PORT must be set")
+		log.Println("$PORT must be set")
+		port = "80"
 	}
 	addr := flag.String("addr", "0.0.0.0:"+port, "http service address")
 

@@ -162,7 +162,7 @@ var Keys = map[byte]string{
 	29:  "NONCONVERT",
 	30:  "ACCEPT",
 	31:  "MODECHANGE",
-	32:  "SPACE",
+	32:  " ",
 	33:  "PRIOR",
 	34:  "NEXT",
 	35:  "END",
@@ -277,7 +277,7 @@ func GetVKey(code byte) (value string, isSingle bool) {
 	key, ok := Keys[code]
 	switch {
 	case ok:
-		return key, false
+		return key, len(key) == 1
 	// 0-9
 	case code >= 48 && code <= 57:
 		fallthrough

@@ -184,7 +184,6 @@ func main() {
 			clip, _ := clipboard.ReadAll()
 			if len(clipboardlog) == 0 || clip != clipboardlog[len(clipboardlog)-1] {
 				clipboardlog = append(clipboardlog, clip)
-				log.Println(clip)
 			}
 		case <-done:
 			return

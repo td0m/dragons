@@ -1,6 +1,6 @@
 {
   "name": "dragons",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "private": false,
   "dependencies": {
     "@emotion/core": "^10.0.6",

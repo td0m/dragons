@@ -1,4 +1,4 @@
-package keylogger
+package platform
 
 import (
 	"fmt"
@@ -9,7 +9,6 @@ import (
 // String returns a human-friendly display name of the hotkey
 // such as "Hotkey[Id: 1, Alt+Ctrl+O]"
 var (
-	user32                  = syscall.NewLazyDLL("user32.dll")
 	procSetWindowsHookEx    = user32.NewProc("SetWindowsHookExW")
 	procCallNextHookEx      = user32.NewProc("CallNextHookEx")
 	procUnhookWindowsHookEx = user32.NewProc("UnhookWindowsHookEx")
@@ -32,17 +31,6 @@ const (
 	WM_LBUTTONDOWN = 513
 	WM_RBUTTONDOWN = 516
 	NULL           = 0
-)
-
-type (
-	DWORD     uint32
-	WPARAM    uintptr
-	LPARAM    uintptr
-	LRESULT   uintptr
-	HANDLE    uintptr
-	HINSTANCE HANDLE
-	HHOOK     HANDLE
-	HWND      HANDLE
 )
 
 // HOOKPROC .

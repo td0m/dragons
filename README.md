@@ -1,39 +1,8 @@
+# Dragons
+## This repo contains:
+ - an implementation of the **server** for the dragons infrastructure
+ - an implementation of the **client** that allows the user to interface with the framework
+ - a Go-based, open-source implementation of the **target** service (background console applicaiton) used to demonstrate the abilities of dragons. It DOES NOT aim to support all the listed features / be stable as it IS NOT actively maintained. It's here for demonstration / testing purposes, and if you are looking for a FUD (Fully UnDetectable) implementaition, you'll have to write it yourself. If you do decide to implement one yourself, feel free to interface it with the already existing server, as long as you follow the API it will work flawlessly with any implementation.
 
-# dragons
-
-A barebones Go app, which can easily be deployed to Heroku.
-
-This application supports the [Getting Started with Go on Heroku](https://devcenter.heroku.com/articles/getting-started-with-go) article - check it out.
-
-## Running Locally
-
-Make sure you have [Go](http://golang.org/doc/install) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
-
-```sh
-$ go get -u github.com/d0minikt/dragons
-$ cd $GOPATH/src/github.com/d0minikt/dragons
-$ heroku local
-```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
-
-You should also install [govendor](https://github.com/kardianos/govendor) if you are going to add any dependencies to the sample app.
-
-## Deploying to Heroku
-
-```sh
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
-
-or
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-
-## Documentation
-
-For more information about using Go on Heroku, see these Dev Center articles:
-
-- [Go on Heroku](https://devcenter.heroku.com/categories/go)
+## This repo is not:
+ - malware. The only purpose of this is to provide penetration testers with a well built core framework they can use.

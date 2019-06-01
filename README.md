@@ -1,3 +1,6 @@
+# NOTE TO SELF (AFTER EXAMS)
+The already existing implementation ISNT following the spec below, the spec is also not fully finalised so feel free to make changes. You need to reimplement all the modules, look at the mock ups on samsung notes.
+
 # Dragons
 ## This repo contains:
  - an implementation of the **server** for the dragons infrastructure, built with Go.

@@ -12,7 +12,10 @@ export class Action {
 }
 
 const useDragonsState = () => {
-  const websocket = useMemo(() => new WebSocket("ws://localhost/ws"), []);
+  const websocket = useMemo(
+    () => new WebSocket("ws://dragons-cloud.herokuapp.com/ws"),
+    []
+  );
   const [targets, setTargets] = useState([]);
   const [connectionState, setConnectionState] = useState<ConnectionState>(
     ConnectionState.Disconnected
@@ -43,6 +46,7 @@ const useDragonsState = () => {
         break;
       case "TARGET_CONNECTED":
         setConnectionState(ConnectionState.TargetConnected);
+        send({ type: "SCREENSHOT" });
         break;
       case "TARGET_DISCONNECTED":
         setConnectionState(ConnectionState.Connected);

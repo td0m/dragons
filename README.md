@@ -1,10 +1,5 @@
 # Dragons
 
-## Todo
-
-- [ ] Prepare and deploy server (with client hosting) to now.sh, as it's fully complete
-- [ ] Add persisted switch allowing user to specify if they want to use a local dragons server or default public located at the now.sh
-
 ## This repo contains:
 
 - an implementation of the **server** for the dragons infrastructure, built with Go.

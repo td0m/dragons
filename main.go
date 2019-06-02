@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 
 	"github.com/gorilla/websocket"
 	cmap "github.com/orcaman/concurrent-map"
@@ -203,6 +204,11 @@ func main() {
 	addr := ("0.0.0.0:" + port)
 
 	http.HandleFunc("/ws", handleWsConnection)
+
+	wd, _ := os.Getwd()
+	dir := path.Join(wd, "/client/build/")
+	fs := http.FileServer(http.Dir(dir))
+	http.Handle("/", fs)
 
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

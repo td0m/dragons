@@ -1,6 +1,13 @@
 FROM heroku/heroku:16-build as build
 
 COPY . /app
+
+WORKDIR /app/client
+RUN npm install
+COPY . ./app/client
+CMD [ "npm", "run", "build" ]
+COPY . ./app/client
+
 WORKDIR /app
 
 # Setup buildpack

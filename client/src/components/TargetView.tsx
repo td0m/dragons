@@ -5,7 +5,9 @@ import State from "../containers/State";
 export default function TargetView() {
   const state = State.use();
 
-  const onClick = (t: string) => {};
+  const onClick = (t: string) => {
+    state.connectTo(t);
+  };
 
   return (
     <Tile title="TARGETS">

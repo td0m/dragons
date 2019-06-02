@@ -58,10 +58,15 @@ const useDragonsState = () => {
   websocket.onmessage = onMessage;
   websocket.onerror = console.log;
 
+  const connectTo = (target: string) => {
+    send({ type: "CONNECT_TO_TARGET", payload: target });
+  };
+
   return {
     targets,
     connectionState,
-    screenshot
+    screenshot,
+    connectTo
   };
 };
 

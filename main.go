@@ -6,9 +6,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"reflect"
 
 	"github.com/gorilla/websocket"
+	cmap "github.com/orcaman/concurrent-map"
 )
 
 // RandomHex generates a random hex string
@@ -54,23 +54,23 @@ type Action struct {
 	Payload string `json:"payload"`
 }
 
-var clients = make(map[string]Client)
-var targets = make(map[string]Target)
+var clients = cmap.New()
+var targets = cmap.New()
 
 func notifyClients() {
-	keys := reflect.ValueOf(targets).MapKeys()
-	strkeys := make([]string, len(keys))
-	for i := 0; i < len(keys); i++ {
-		strkeys[i] = keys[i].String()
-	}
-
-	for _, value := range clients {
-		value.Socket.WriteJSON(StateAction{
-			Type: "UPDATE_STATE",
-			Payload: State{
-				Targets: strkeys,
-			},
-		})
+	for _, key := range clients.Keys() {
+		raw, ok := clients.Get(key)
+		if ok {
+			client := raw.(Client)
+			if client.Socket != nil {
+				client.Socket.WriteJSON(StateAction{
+					Type: "UPDATE_STATE",
+					Payload: State{
+						Targets: targets.Keys(),
+					},
+				})
+			}
+		}
 	}
 }
 
@@ -94,23 +94,25 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Disconnected: ", err)
 			if len(id) > 0 {
-				if _, ok := targets[id]; ok && isTarget {
-					clientID := targets[id].Client
+				if target, ok := targets.Get(id); ok && isTarget {
+					clientID := (target.(Target)).Client
 					if len(clientID) > 0 {
-						clients[clientID] = Client{
-							Socket: clients[clientID].Socket,
-						}
+						c, _ := clients.Get(clientID)
+						clients.Set(clientID, Client{
+							Socket: c.(Client).Socket,
+						})
 					}
-					delete(targets, id)
+					targets.Remove(id)
 					notifyClients()
-				} else if _, ok := clients[id]; ok && !isTarget {
-					targetID := targets[id].Client
+				} else if client, ok := clients.Get(id); ok && !isTarget {
+					targetID := client.(Client).Target
 					if len(targetID) > 0 {
-						targets[targetID] = Target{
-							Socket: targets[targetID].Socket,
-						}
+						t, _ := targets.Get(targetID)
+						targets.Set(targetID, Target{
+							Socket: t.(Target).Socket,
+						})
 					}
-					delete(clients, id)
+					clients.Remove(id)
 				}
 			}
 			break
@@ -122,53 +124,61 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 		case "CONNECT_TARGET":
 			isTarget = true
 			id, _ = RandomHex(5)
-			targets[id] = Target{
+			targets.Set(id, Target{
 				Socket: ws,
-			}
+			})
 			notifyClients()
-			log.Printf("TARGET CONNECTED %v", targets)
+			log.Printf("TARGET CONNECTED %v", len(targets.Keys()))
+
 		case "CONNECT_CLIENT":
 			isTarget = false
 			id, _ = RandomHex(10)
-			clients[id] = Client{
+			clients.Set(id, Client{
 				Socket: ws,
-			}
-			log.Println("CLIENT CONNECTED %v", clients)
+			})
+			log.Println("CLIENT CONNECTED ", len(clients.Keys()))
 		case "CONNECT_TO_TARGET":
-			if target, ok := targets[action.Payload]; ok {
+			if targetRaw, ok := targets.Get(action.Payload); ok {
+				target := targetRaw.(Target)
 				if len(target.Client) > 0 {
-					if c, ok := clients[target.Client]; ok {
-						c.Socket.WriteJSON(Action{
+					if clientRaw, ok := clients.Get(target.Client); ok {
+						client := clientRaw.(Client)
+						client.Socket.WriteJSON(Action{
 							Type: "TARGET_DISCONNECTED",
 						})
 					}
 				}
 
-				clients[id] = Client{
-					Socket: clients[id].Socket,
+				c, _ := clients.Get(id)
+				clients.Set(id, Client{
+					Socket: c.(Client).Socket,
 					Target: action.Payload,
-				}
-				targets[action.Payload] = Target{
-					Socket: targets[action.Payload].Socket,
+				})
+				t, _ := targets.Get(action.Payload)
+				targets.Set(action.Payload, Target{
+					Socket: t.(Target).Socket,
 					Client: id,
-				}
+				})
 
 				target.Socket.WriteJSON(Action{
-					Type:    "CONNECT_TO_TARGET",
-					Payload: "",
+					Type: "CONNECT_TO_TARGET",
+				})
+				ws.WriteJSON(Action{
+					Type: "TARGET_CONNECTED",
 				})
 			}
 		default:
-			log.Println(action.Payload)
 			if isTarget {
-				clientID := targets[id].Client
-				if client, ok := clients[clientID]; ok {
-					client.Socket.WriteMessage(msgType, message)
+				t, _ := targets.Get(id)
+				clientID := t.(Target).Client
+				if client, ok := clients.Get(clientID); ok {
+					client.(Client).Socket.WriteMessage(msgType, message)
 				}
 			} else {
-				targetID := clients[id].Target
-				if target, ok := targets[targetID]; ok {
-					target.Socket.WriteMessage(msgType, message)
+				c, _ := clients.Get(id)
+				targetID := c.(Client).Target
+				if target, ok := targets.Get(targetID); ok {
+					target.(Target).Socket.WriteMessage(msgType, message)
 				}
 			}
 		}

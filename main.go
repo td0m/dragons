@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/websocket"
 	cmap "github.com/orcaman/concurrent-map"
@@ -198,7 +199,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	port := "80"
+	port := os.Getenv("PORT")
 	addr := ("0.0.0.0:" + port)
 
 	http.HandleFunc("/ws", handleWsConnection)

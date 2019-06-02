@@ -165,6 +165,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 				})
 				ws.WriteJSON(Action{
 					Type: "TARGET_CONNECTED",
+					Payload: action.Payload
 				})
 			}
 		default:

@@ -12,7 +12,7 @@ export default function TargetView() {
   return (
     <Tile title="TARGETS">
       {state.targets.map(t => (
-        <div onClick={() => onClick(t)} key={t}>
+        <div className="target-item" onClick={() => onClick(t)} key={t}>
           {t}
         </div>
       ))}

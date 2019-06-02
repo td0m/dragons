@@ -105,3 +105,15 @@ body {
   padding: 15px 0 8px;
   font-size: 40px;
 }
+
+.target-item {
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.target-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.target-item:active {
+  background: rgba(255, 255, 255, 0.2);
+}

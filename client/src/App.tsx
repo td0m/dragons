@@ -13,7 +13,11 @@ setTimeout(() => {
     target.send(JSON.stringify({ type: "CONNECT_TARGET" }));
   };
   target.onmessage = (ev: MessageEvent) => {
-    console.log(ev);
+    const data = JSON.parse(ev.data);
+    console.log(data);
+    const { type, payload } = data;
+    if (type === "YO_YOU_THERE")
+      target.send(JSON.stringify({ type: "YEAH_MAN_WHATS_UP" }));
   };
 }, 2000);
 
@@ -35,6 +39,8 @@ const App: React.FC = () => {
     console.log(payload);
     if (type === "UPDATE_STATE") {
       send({ type: "CONNECT_TO_TARGET", payload: payload.targets[0] });
+    } else if (type === "TARGET_CONNECTED") {
+      send({ type: "YO_YOU_THERE", payload: "Just checking" });
     }
   };
 

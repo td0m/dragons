@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -204,6 +205,9 @@ func main() {
 	addr := ("0.0.0.0:" + port)
 
 	http.HandleFunc("/ws", handleWsConnection)
+
+	files, _ := ioutil.ReadDir("./client")
+	log.Println(files)
 
 	wd, _ := os.Getwd()
 	dir := path.Join(wd, "/client/build/")

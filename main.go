@@ -57,6 +57,12 @@ type Action struct {
 var clients = cmap.New()
 var targets = cmap.New()
 
+func printCount() {
+	c := len(clients.Keys())
+	t := len(targets.Keys())
+	log.Println("CLIENTS: ", c, "TARGETS: ", t)
+}
+
 func notifyClient(ws websocket.Conn) {
 	ws.WriteJSON(StateAction{
 		Type: "UPDATE_STATE",
@@ -84,7 +90,6 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 		log.Print("Upgrade: ", err)
 		return
 	}
-	log.Println("Server Running")
 	defer ws.Close()
 
 	// init connection
@@ -96,7 +101,6 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 		msgType, message, err := ws.ReadMessage()
 		// handle user disconnect
 		if err != nil {
-			log.Println("Disconnected: ", err)
 			if len(id) > 0 {
 				if target, ok := targets.Get(id); ok && isTarget {
 					clientID := (target.(Target)).Client
@@ -118,6 +122,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 					}
 					clients.Remove(id)
 				}
+				printCount()
 			}
 			break
 		}
@@ -132,7 +137,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 				Socket: ws,
 			})
 			notifyClients()
-			log.Printf("TARGET CONNECTED %v", len(targets.Keys()))
+			printCount()
 
 		case "CONNECT_CLIENT":
 			isTarget = false
@@ -141,7 +146,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 				Socket: ws,
 			})
 			notifyClient(*ws)
-			log.Println("CLIENT CONNECTED ", len(clients.Keys()))
+			printCount()
 		case "CONNECT_TO_TARGET":
 			if targetRaw, ok := targets.Get(action.Payload); ok {
 				target := targetRaw.(Target)
@@ -174,7 +179,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 				})
 			}
 		default:
-			log.Println(action.Type);
+			log.Println(action.Type)
 			if isTarget {
 				t, _ := targets.Get(id)
 				clientID := t.(Target).Client

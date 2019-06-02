@@ -57,18 +57,22 @@ type Action struct {
 var clients = cmap.New()
 var targets = cmap.New()
 
+func notifyClient(ws websocket.Conn) {
+	ws.WriteJSON(StateAction{
+		Type: "UPDATE_STATE",
+		Payload: State{
+			Targets: targets.Keys(),
+		},
+	})
+}
+
 func notifyClients() {
 	for _, key := range clients.Keys() {
 		raw, ok := clients.Get(key)
 		if ok {
 			client := raw.(Client)
 			if client.Socket != nil {
-				client.Socket.WriteJSON(StateAction{
-					Type: "UPDATE_STATE",
-					Payload: State{
-						Targets: targets.Keys(),
-					},
-				})
+				notifyClient(*client.Socket)
 			}
 		}
 	}
@@ -136,6 +140,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			clients.Set(id, Client{
 				Socket: ws,
 			})
+			notifyClient(*ws)
 			log.Println("CLIENT CONNECTED ", len(clients.Keys()))
 		case "CONNECT_TO_TARGET":
 			if targetRaw, ok := targets.Get(action.Payload); ok {
@@ -164,11 +169,12 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 					Type: "CONNECT_TO_TARGET",
 				})
 				ws.WriteJSON(Action{
-					Type: "TARGET_CONNECTED",
+					Type:    "TARGET_CONNECTED",
 					Payload: action.Payload,
 				})
 			}
 		default:
+			log.Println(action.Type);
 			if isTarget {
 				t, _ := targets.Get(id)
 				clientID := t.(Target).Client

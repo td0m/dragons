@@ -38,6 +38,7 @@
   font-weight: 500;
   font-size: 1.1rem;
   user-select: none;
+  cursor: pointer;
 }
 .tile-content {
   padding: 4px 6px;

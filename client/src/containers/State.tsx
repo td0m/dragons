@@ -4,7 +4,7 @@ import { useMemo } from "react";
 export enum ConnectionState {
   Connected = "CONNECTED",
   Disconnected = "DISCONNECTED",
-  TargetConnected = "TARGET_CONNECTED"
+  TargetConnected = "TARGET CONNECTED"
 }
 
 export class Action {
@@ -43,6 +43,7 @@ const useDragonsState = () => {
         send({ type: "CONNECT_TO_TARGET", payload: payload.targets[0] });
         break;
       case "TARGET_CONNECTED":
+        setConnectionState(ConnectionState.TargetConnected);
         send({ type: "SCREENSHOT", payload: "" });
         break;
       case "SCREENSHOT":

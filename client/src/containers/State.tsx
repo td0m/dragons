@@ -40,11 +40,12 @@ const useDragonsState = () => {
       case "UPDATE_STATE":
         setTargets(payload.targets);
         setConnectionState(ConnectionState.Connected);
-        send({ type: "CONNECT_TO_TARGET", payload: payload.targets[0] });
         break;
       case "TARGET_CONNECTED":
         setConnectionState(ConnectionState.TargetConnected);
-        send({ type: "SCREENSHOT", payload: "" });
+        break;
+      case "TARGET_DISCONNECTED":
+        setConnectionState(ConnectionState.Connected);
         break;
       case "SCREENSHOT":
         setScreenshot(payload);

@@ -12,6 +12,9 @@ setTimeout(() => {
   target.onopen = () => {
     target.send(JSON.stringify({ type: "CONNECT_TARGET" }));
   };
+  target.onmessage = (ev: MessageEvent) => {
+    console.log(ev);
+  };
 }, 2000);
 
 const App: React.FC = () => {
@@ -30,6 +33,9 @@ const App: React.FC = () => {
     const { type, payload } = data;
     console.log(type);
     console.log(payload);
+    if (type === "UPDATE_STATE") {
+      send({ type: "CONNECT_TO_TARGET", payload: payload.targets[0] });
+    }
   };
 
   useEventListener("open", onOpen, websocket);

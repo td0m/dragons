@@ -5,56 +5,10 @@ import Clock from "./components/Clock";
 import Divider from "./components/Divider";
 import NetworkStatus from "./components/NetworkStatus";
 import TargetView from "./components/TargetView";
-import State from "./containers/State";
-
-class Action {
-  constructor(public type: string, public payload?: any) {}
-}
+import State, { ConnectionState } from "./containers/State";
 
 const App: React.FC = () => {
-  const websocket = useMemo(() => new WebSocket("ws://localhost/ws"), []);
-  const [img, setImg] = useState("");
-
-  const state = State.use();
-
-  const send = (action: Action) => {
-    websocket.send(JSON.stringify(action));
-  };
-
-  const onOpen = () => {
-    console.log("OPEN");
-    state.setConnected(true);
-    send({ type: "CONNECT_CLIENT" });
-  };
-
-  const onClose = () => {
-    state.setTargetConnected(false);
-    state.setConnected(false);
-    state.setTargets([]);
-  };
-
-  const onMessage = (ev: MessageEvent) => {
-    const data = JSON.parse(ev.data);
-    const { type, payload } = data;
-    console.log(type);
-    switch (type) {
-      case "UPDATE_STATE":
-        state.setTargets(payload.targets);
-        state.setTargetConnected(true);
-        send({ type: "CONNECT_TO_TARGET", payload: payload.targets[0] });
-        break;
-      case "TARGET_CONNECTED":
-        send({ type: "SCREENSHOT", payload: "" });
-        break;
-      case "SCREENSHOT":
-        setImg(payload);
-        break;
-    }
-  };
-
-  websocket.onopen = onOpen;
-  websocket.onclose = onClose;
-  websocket.onmessage = onMessage;
+  const { screenshot } = State.use();
 
   return (
     <div className="grid">
@@ -67,8 +21,12 @@ const App: React.FC = () => {
         <NetworkStatus />
         <Divider />
         <TargetView />
-        {img && (
-          <img width={200} src={`data:image/png;base64, ${img}`} alt="" />
+        {screenshot && (
+          <img
+            width={200}
+            src={`data:image/png;base64, ${screenshot}`}
+            alt=""
+          />
         )}
       </div>
       <div className="main">main</div>

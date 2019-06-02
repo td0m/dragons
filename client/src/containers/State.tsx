@@ -1,19 +1,65 @@
 import createContainer, { useState } from "@hook-state/core";
+import { useMemo } from "react";
+
+export enum ConnectionState {
+  Connected = "CONNECTED",
+  Disconnected = "DISCONNECTED",
+  TargetConnected = "TARGET_CONNECTED"
+}
+
+export class Action {
+  constructor(public type: string, public payload?: any) {}
+}
 
 const useDragonsState = () => {
+  const websocket = useMemo(() => new WebSocket("ws://localhost/ws"), []);
   const [targets, setTargets] = useState([]);
-  const [connected, setConnected] = useState(false);
-  const [targetConnected, setTargetConnected] = useState(false);
+  const [connectionState, setConnectionState] = useState<ConnectionState>(
+    ConnectionState.Disconnected
+  );
+  const [screenshot, setScreenshot] = useState("");
+
+  const send = (action: Action) => websocket.send(JSON.stringify(action));
+
+  const onOpen = () => {
+    console.log("OPEN");
+    setConnectionState(ConnectionState.Connected);
+    send({ type: "CONNECT_CLIENT" });
+  };
+
+  const onClose = () => {
+    setConnectionState(ConnectionState.Disconnected);
+    setTargets([]);
+  };
+
+  const onMessage = (ev: MessageEvent) => {
+    const data = JSON.parse(ev.data);
+    const { type, payload } = data;
+    console.log(type);
+    switch (type) {
+      case "UPDATE_STATE":
+        setTargets(payload.targets);
+        setConnectionState(ConnectionState.Connected);
+        send({ type: "CONNECT_TO_TARGET", payload: payload.targets[0] });
+        break;
+      case "TARGET_CONNECTED":
+        send({ type: "SCREENSHOT", payload: "" });
+        break;
+      case "SCREENSHOT":
+        setScreenshot(payload);
+        break;
+    }
+  };
+
+  websocket.onopen = onOpen;
+  websocket.onclose = onClose;
+  websocket.onmessage = onMessage;
+  websocket.onerror = console.log;
 
   return {
     targets,
-    setTargets,
-
-    connected,
-    setConnected,
-
-    targetConnected,
-    setTargetConnected
+    connectionState,
+    screenshot
   };
 };
 

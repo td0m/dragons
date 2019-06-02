@@ -1,13 +1,107 @@
+:root {
+  --theme-bg: #0d1015;
+  --theme-color: #a8ced0;
+  --theme-border: #2e4a52;
+
+  --theme-font-size: 14px;
+  --theme-font: "Roboto Mono", monospace;
+  --theme-font-display: "Major Mono Display", sans-serif;
+
+  --border: solid 1px var(--theme-border);
+}
+
+.font {
+  font-family: var(--theme-font);
+}
+.font-display {
+  font-family: var(--theme-font-display);
+}
+.font-bold {
+  font-weight: 500;
+}
+.font-thin {
+  font-weight: 300;
+}
+
+.text-darker {
+  opacity: 0.7;
+}
+
+.tile {
+  padding: 2px 8px;
+  text-overflow: clip;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+.tile-title {
+  font-weight: 500;
+  font-size: 1.1rem;
+  user-select: none;
+}
+.tile-content {
+  padding: 4px 6px;
+}
+
+.app-title {
+  font-size: 20px;
+}
+
+html,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--theme-font);
+  font-size: var(--theme-font-size);
+  background: var(--theme-bg);
+  color: var(--theme-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.grid {
+  font-size: 13px;
+  color: var(--theme-color);
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 300px auto;
+  grid-template-rows: 30px auto;
+  grid-template-areas:
+    "left top"
+    "left main";
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: auto;
+    grid-template-rows: 30px 1fr, 1fr;
+    grid-template-areas: "top" "left" "main";
+  }
+}
+
+.top {
+  grid-area: top;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: var(--border);
+}
+.main {
+  grid-area: main;
+  border-radius: 3px;
+}
+
+.left {
+  grid-area: left;
+  padding: 0 10px;
+  overflow: auto;
+  border-bottom: var(--border);
+  border-right: var(--border);
+}
+
+.clock {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0 8px;
+  font-size: 40px;
 }

@@ -1,7 +1,3 @@
-# NOTE TO SELF (AFTER EXAMS)
-
-The already existing implementation ISNT following the spec below, the spec is also not fully finalised so feel free to make changes. You need to reimplement all the modules, look at the mock ups on samsung notes.
-
 # Dragons
 
 ## This repo contains:
@@ -47,7 +43,7 @@ The server uses the websocket protocol for handling its requests. You can imagin
 ```typescript
 interface Clients {
   [id: string]: {
-    ws: Websocket;
+    socket: Websocket;
     target: string; // target id of the target client is connected to
   };
 }
@@ -56,7 +52,7 @@ interface Clients {
 ```typescript
 interface Targets {
   [id: string]: {
-    ws: Websocket;
+    socket: Websocket;
     client: string; // client id of the client target is connected to
   };
 }
@@ -64,28 +60,34 @@ interface Targets {
 
 ## Requests
 
-| Name                    | Payload Type               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| ----------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **CONNECT_CLIENT**      | `None`                     | Sent by the client in order to listen for targets connecting / disconnecting. Client gets a random generated id and used as a key when adding the `ws` instance to the client dictionary.                                                                                                                                                                                                                                                      |
-| **CONNECT_TARGET**      | `TargetInfo`               | Sent by the client in order to acknowledge its existence & inform the users. `TargetConnection.deviceInfo.name` is used as a key when adding the target's `ws` to the target dictionary. Will send **UPDATE_STATE** to all the clients.                                                                                                                                                                                                        |
-| **CONNECT_TO_TARGET**   | `string`                   | Sent by a client to connect to a target. If successful, the client id will be sent to the target using **CONNECT_TO_TARGET** request action and client will receive **TARGET_CONNECTED**. The `target` id in the `Clients` dictionary will be set to that id and sets the `client` id in the `Targets` dictionary. If connection error occured, a **TARGET_DISCONNECTED** response will be sent and the `target` in `Clients` will be cleared. |
-| **CONNECT_TO_TARGET**   | `ApprovedTargetConnection` | Server will send the id of the client connected to the target for it to store it in a variable and use it to send its responses                                                                                                                                                                                                                                                                                                                |
-| **TARGET_CONNECTED**    | `string`                   | Sends the id of the target that the client successfully connected to                                                                                                                                                                                                                                                                                                                                                                           |
-| **TARGET_DISCONNECTED** | `None`                     | Tells the client that the target has been disconnected or client has been disconnected from the target                                                                                                                                                                                                                                                                                                                                         |
-| **{{ACTION}}**          | `Action`                   | Sent by a client to a target or by a target to a client. Server simply passes through the message.                                                                                                                                                                                                                                                                                                                                             |
-| **UPDATE_STATE**        | `{Targets: string[]}`      | Sends an array of targets                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Name                  | Payload Type | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CONNECT_CLIENT**    | `None`       | Sent by the client in order to listen for targets connecting / disconnecting. Client gets a random generated id and used as a key when adding the `ws` instance to the client dictionary.                                                                                                                                                                                                                                                      |
+| **CONNECT_TARGET**    | `None`       | Sent by the client in order to acknowledge its existence & inform the users. `TargetConnection.deviceInfo.name` is used as a key when adding the target's `ws` to the target dictionary. Will send **UPDATE_STATE** to all the clients.                                                                                                                                                                                                        |
+| **CONNECT_TO_TARGET** | `string`     | Sent by a client to connect to a target. If successful, the client id will be sent to the target using **CONNECT_TO_TARGET** request action and client will receive **TARGET_CONNECTED**. The `target` id in the `Clients` dictionary will be set to that id and sets the `client` id in the `Targets` dictionary. If connection error occured, a **TARGET_DISCONNECTED** response will be sent and the `target` in `Clients` will be cleared. |  |
+
+TODO: document rest of requests
+
+### Flow
+
+```
+(T) -> (S) CONNECT_TARGET / DISCONNECT
+        |
+    ____|_____  UPDATE_STATE
+   |    |    |
+  (C)  (C)  (C)
+
+(C) -> (S) CONNECT_CLIENT   -   (C) will now listen for and receive UPDATE_STATE events
+
+(C) -> (S) CONNECT_TO_TARGET(targetID)    -    If possible, devices will be connected and all their events will be passed through to each other
+
+(C/T) -> (S) DISCONNECT   -   clear the connections / associations that involve the (C/T). Delete that (C/T) from the map, we don't need to keep track of terminated communications.
+
+(C) <-> (S) <-> (T)    -    ACTION,   action usually started by (C) will go to the server and be passed through to (T) and the response, if there is any, will go back to (S) and be passed through to (C).
+
+```
 
 ### Types
-
-```typescript
-interface TargetInfo {
-  actions: string[]; // list of actions supported by the client
-  deviceInfo: {
-    name: string;
-    localIp: string;
-  };
-}
-```
 
 ```typescript
 interface Action {

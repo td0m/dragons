@@ -1,5 +1,9 @@
 # Dragons
 
+## TODO
+
+- [ ] Script for disabling antivirus, downloading the backdoor exe file, executing it, enabling antivirus after making that one file an exception
+
 ## This repo contains:
 
 - an implementation of the **server** for the dragons infrastructure, built with Go.

@@ -36,8 +36,9 @@ type Client struct {
 
 // Target struct
 type Target struct {
-	Socket *websocket.Conn
-	Client string
+	Socket   *websocket.Conn
+	Client   string
+	Password string
 }
 
 // StateAction action
@@ -55,6 +56,15 @@ type State struct {
 type Action struct {
 	Type    string `json:"type"`
 	Payload string `json:"payload"`
+}
+
+type LoginDetails struct {
+	ID       string `json:"id"`
+	Password string `json:"password"`
+}
+type ConnectToTargetAction struct {
+	Type    string       `json:"type"`
+	Payload LoginDetails `json:"payload"`
 }
 
 var clients = cmap.New()
@@ -120,7 +130,8 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 					if len(targetID) > 0 {
 						t, _ := targets.Get(targetID)
 						targets.Set(targetID, Target{
-							Socket: t.(Target).Socket,
+							Socket:   t.(Target).Socket,
+							Password: t.(Target).Password,
 						})
 					}
 					clients.Remove(id)
@@ -137,7 +148,8 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			isTarget = true
 			id, _ = RandomHex(5)
 			targets.Set(id, Target{
-				Socket: ws,
+				Socket:   ws,
+				Password: action.Payload,
 			})
 			notifyClients()
 			printCount()
@@ -151,35 +163,40 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			notifyClient(*ws)
 			printCount()
 		case "CONNECT_TO_TARGET":
-			if targetRaw, ok := targets.Get(action.Payload); ok {
+			loginAction := ConnectToTargetAction{}
+			json.Unmarshal(message, &loginAction)
+
+			if targetRaw, ok := targets.Get(loginAction.Payload.ID); ok {
 				target := targetRaw.(Target)
-				if len(target.Client) > 0 {
+				passwordsMatch := loginAction.Payload.Password == target.Password
+				if len(target.Client) > 0 || !passwordsMatch {
 					if clientRaw, ok := clients.Get(target.Client); ok {
 						client := clientRaw.(Client)
 						client.Socket.WriteJSON(Action{
 							Type: "TARGET_DISCONNECTED",
 						})
 					}
+				} else {
+					c, _ := clients.Get(id)
+					clients.Set(id, Client{
+						Socket: c.(Client).Socket,
+						Target: loginAction.Payload.ID,
+					})
+					t, _ := targets.Get(loginAction.Payload.ID)
+					targets.Set(loginAction.Payload.ID, Target{
+						Socket:   t.(Target).Socket,
+						Password: t.(Target).Password,
+						Client:   id,
+					})
+
+					target.Socket.WriteJSON(Action{
+						Type: "CONNECT_TO_TARGET",
+					})
+					ws.WriteJSON(Action{
+						Type:    "TARGET_CONNECTED",
+						Payload: action.Payload,
+					})
 				}
-
-				c, _ := clients.Get(id)
-				clients.Set(id, Client{
-					Socket: c.(Client).Socket,
-					Target: action.Payload,
-				})
-				t, _ := targets.Get(action.Payload)
-				targets.Set(action.Payload, Target{
-					Socket: t.(Target).Socket,
-					Client: id,
-				})
-
-				target.Socket.WriteJSON(Action{
-					Type: "CONNECT_TO_TARGET",
-				})
-				ws.WriteJSON(Action{
-					Type:    "TARGET_CONNECTED",
-					Payload: action.Payload,
-				})
 			}
 		default:
 			log.Println(action.Type)

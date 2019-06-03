@@ -118,3 +118,7 @@ body {
 .target-item:active {
   background: rgba(255, 255, 255, 0.2);
 }
+
+.MuiSnackbar-root {
+  margin-bottom: 10px;
+}

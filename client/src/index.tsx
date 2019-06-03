@@ -3,13 +3,29 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { SnackbarProvider } from "notistack";
+import { ThemeProvider } from "@material-ui/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 
 import State from "./containers/State";
+import Events from "./containers/Events";
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "Roboto Mono"
+  }
+});
 
 ReactDOM.render(
-  <State.Provider>
-    <App />
-  </State.Provider>,
+  <ThemeProvider theme={theme}>
+    <SnackbarProvider maxSnack={5} dense>
+      <Events.Provider>
+        <State.Provider>
+          <App />
+        </State.Provider>
+      </Events.Provider>
+    </SnackbarProvider>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

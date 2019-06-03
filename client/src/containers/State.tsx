@@ -1,5 +1,6 @@
 import createContainer, { useState } from "@hook-state/core";
 import { useMemo } from "react";
+import Events from "./Events";
 
 export enum ConnectionState {
   Connected = "CONNECTED",
@@ -21,6 +22,7 @@ const useDragonsState = () => {
     ConnectionState.Disconnected
   );
   const [screenshot, setScreenshot] = useState("");
+  const events = Events.use();
 
   const send = (action: Action) => websocket.send(JSON.stringify(action));
 
@@ -34,11 +36,10 @@ const useDragonsState = () => {
     setConnectionState(ConnectionState.Disconnected);
     setTargets([]);
   };
-
   const onMessage = (ev: MessageEvent) => {
     const data = JSON.parse(ev.data);
     const { type, payload } = data;
-    console.log(type);
+    events.add(data);
     switch (type) {
       case "UPDATE_STATE":
         setTargets(payload.targets);
@@ -76,7 +77,8 @@ const useDragonsState = () => {
     connectionState,
     screenshot,
     connectTo,
-    send
+    send,
+    events
   };
 };
 

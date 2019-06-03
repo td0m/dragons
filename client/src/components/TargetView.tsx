@@ -10,7 +10,7 @@ export default function TargetView() {
   };
 
   const targets = state.targets.map(t => (
-    <div className="target-item" onClick={() => onClick(t)} key={t}>
+    <div className="target-item text-darker" onClick={() => onClick(t)} key={t}>
       {t}
     </div>
   ));  

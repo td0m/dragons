@@ -1,16 +1,14 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import "./App.css";
 
 import Clock from "./components/Clock";
 import Divider from "./components/Divider";
 import NetworkStatus from "./components/NetworkStatus";
 import TargetView from "./components/TargetView";
-import State, { ConnectionState } from "./containers/State";
 import TargetActions from "./components/TargetActions";
+import Main from "./components/Main";
 
 const App: React.FC = () => {
-  const { screenshot } = State.use();
-
   return (
     <div className="grid">
       <div className="top">
@@ -22,17 +20,11 @@ const App: React.FC = () => {
         <NetworkStatus />
         <Divider />
         <TargetView />
-        <Divider />
         <TargetActions />
-        {screenshot && (
-          <img
-            width={200}
-            src={`data:image/png;base64, ${screenshot}`}
-            alt=""
-          />
-        )}
       </div>
-      <div className="main">main</div>
+      <div className="main">
+        <Main />
+      </div>
     </div>
   );
 };

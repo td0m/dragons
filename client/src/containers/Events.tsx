@@ -10,8 +10,9 @@ import { base64ToBytes, downloadBytes } from "../services/encoding";
 
 const defaults = ["UPDATE_STATE", "TARGET_CONNECTED"];
 
-const getVariant = (type: string): "default" | "info" => {
+const getVariant = (type: string): "default" | "info" | "error" => {
   if (defaults.indexOf(type) > -1) return "default";
+  if (type === "TARGET_DISCONNECTED") return "error";
   return "info";
 };
 
@@ -55,7 +56,7 @@ const useEvents = () => {
 
   const add = (action: Action) => {
     set([action, ...value]);
-    if (action.type !== "PING") {
+    if (action.type !== "PING" && action.type !== "UPDATE_STATE") {
       snackbar.enqueueSnackbar(action.type, {
         variant: getVariant(action.type),
         action: createAction(action),

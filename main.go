@@ -126,7 +126,6 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 						})
 					}
 					targets.Remove(id)
-					notifyClients()
 				} else if client, ok := clients.Get(id); ok && !isTarget {
 					targetID := client.(Client).Target
 					if len(targetID) > 0 {
@@ -138,6 +137,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 					}
 					clients.Remove(id)
 				}
+				notifyClients()
 				printCount()
 			}
 			break

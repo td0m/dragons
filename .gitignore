@@ -1,6 +1,0 @@
-.env
-.docker_build/
-
-node_modules
-
-releases

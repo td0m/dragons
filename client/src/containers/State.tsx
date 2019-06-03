@@ -1,4 +1,8 @@
-import createContainer, { useState, useString } from "@hook-state/core";
+import createContainer, {
+  useState,
+  useString,
+  useObject
+} from "@hook-state/core";
 import { useMemo } from "react";
 import Events from "./Events";
 
@@ -8,9 +12,19 @@ export enum ConnectionState {
   TargetConnected = "TARGET CONNECTED"
 }
 
+export interface State {
+  targets: string[];
+  clients: string[];
+}
+
 export class Action {
   constructor(public type: string, public payload?: any) {}
 }
+
+const initial = {
+  targets: [],
+  clients: []
+};
 
 const useDragonsState = () => {
   const websocket = useMemo(
@@ -18,7 +32,8 @@ const useDragonsState = () => {
     () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
     []
   );
-  const [targets, setTargets] = useState([]);
+  const state = useObject<State>(initial);
+
   const [connectionState, setConnectionState] = useState<ConnectionState>(
     ConnectionState.Disconnected
   );
@@ -36,7 +51,7 @@ const useDragonsState = () => {
 
   const onClose = () => {
     setConnectionState(ConnectionState.Disconnected);
-    setTargets([]);
+    state.set(initial);
   };
   const onMessage = (ev: MessageEvent) => {
     const data = JSON.parse(ev.data);
@@ -44,7 +59,7 @@ const useDragonsState = () => {
     events.add(data);
     switch (type) {
       case "UPDATE_STATE":
-        setTargets(payload.targets);
+        state.set({ ...state.value, targets: payload.targets });
         setConnectionState(ConnectionState.Connected);
         break;
       case "TARGET_CONNECTED":
@@ -78,7 +93,7 @@ const useDragonsState = () => {
   };
 
   return {
-    targets,
+    state: state.value,
     connectionState,
     screenshot,
     connectTo,

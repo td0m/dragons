@@ -23,7 +23,7 @@ export default function TargetView() {
     setSelected("");
   };
 
-  const targets = state.targets.map(t => (
+  const targets = state.state.targets.map(t => (
     <div className="target-item text-darker" onClick={() => onClick(t)} key={t}>
       {t}
     </div>
@@ -32,13 +32,13 @@ export default function TargetView() {
   return (
     <>
       <Tile title="TARGETS">
-        {state.targets.length > 0 ? (
+        {state.state.targets.length > 0 ? (
           targets
         ) : (
           <div className="text-darker">No targets found.</div>
         )}
       </Tile>
-      {state.targets.length > 0 && (
+      {state.state.targets.length > 0 && (
         <Dialog open={selected.length > 0}>
           <DialogTitle>Input password</DialogTitle>
           <DialogContent>

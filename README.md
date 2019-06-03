@@ -20,9 +20,9 @@ Here is a list of actions / request types that are supported by the client. As t
 
 | Implemented? | Type                      | Description                                                         |
 | ------------ | ------------------------- | ------------------------------------------------------------------- |
-| ⬜️          | **SCREENSHOT**            | Screenshot a screen                                                 |
+| ✅           | **SCREENSHOT**            | Screenshot a screen                                                 |
 | ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                       |
-| ⬜️          | **WEBCAM_SNAP**           | Snap a picture of the webcam                                        |
+| ✅           | **WEBCAM_SNAP**           | Snap a picture of the webcam                                        |
 | ⬜️          | **NOTIFY**                | Display a notification to the user                                  |
 | ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                              |
 | ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                        |

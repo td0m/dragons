@@ -1,4 +1,4 @@
-import createContainer, { useState } from "@hook-state/core";
+import createContainer, { useState, useString } from "@hook-state/core";
 import { useMemo } from "react";
 import Events from "./Events";
 
@@ -14,6 +14,7 @@ export class Action {
 
 const useDragonsState = () => {
   const websocket = useMemo(
+    // () => new WebSocket("ws://localhost/v1"),
     () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
     []
   );
@@ -22,6 +23,7 @@ const useDragonsState = () => {
     ConnectionState.Disconnected
   );
   const [screenshot, setScreenshot] = useState("");
+  const password = useString("");
   const events = Events.use();
 
   const send = (action: Action) => websocket.send(JSON.stringify(action));
@@ -69,7 +71,10 @@ const useDragonsState = () => {
   websocket.onerror = console.log;
 
   const connectTo = (target: string) => {
-    send({ type: "CONNECT_TO_TARGET", payload: target });
+    send({
+      type: "CONNECT_TO_TARGET",
+      payload: { id: target, password: password.value }
+    });
   };
 
   return {
@@ -78,7 +83,8 @@ const useDragonsState = () => {
     screenshot,
     connectTo,
     send,
-    events
+    events,
+    password
   };
 };
 

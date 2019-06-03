@@ -23,6 +23,7 @@ Here is a list of actions / request types that are supported by the client. As t
 | ⬜️          | **SCREENSHOT**            | Screenshot a screen                                                 |
 | ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                       |
 | ⬜️          | **WEBCAM_SNAP**           | Snap a picture of the webcam                                        |
+| ⬜️          | **NOTIFY**                | Display a notification to the user                                  |
 | ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                              |
 | ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                        |
 | ⬜️          | **WRITE_CLIPBOARD_TEXT**  | Write string to clipboard                                           |
@@ -37,8 +38,8 @@ Here is a list of actions / request types that are supported by the client. As t
 | ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                         |
 | ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                             |
 | ⬜️          | **LS**                    | List files and directories in a given directory                     |
-| ⬜️          | **FILE**              | Receive file from client/target                                            |
-| ⬜️          | **REQUEST_FILE**                | Requests file at a given path to be uploaded to server              |
+| ⬜️          | **FILE**                  | Receive file from client/target                                     |
+| ⬜️          | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server              |
 
 ## Server API
 

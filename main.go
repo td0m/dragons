@@ -202,6 +202,9 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	port := os.Getenv("PORT")
+	if len(port) == 0 {
+		port = "80"
+	}
 	addr := ("0.0.0.0:" + port)
 
 	http.HandleFunc("/v1", handleWsConnection)

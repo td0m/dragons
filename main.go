@@ -170,12 +170,9 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 				target := targetRaw.(Target)
 				passwordsMatch := loginAction.Payload.Password == target.Password
 				if len(target.Client) > 0 || !passwordsMatch {
-					if clientRaw, ok := clients.Get(target.Client); ok {
-						client := clientRaw.(Client)
-						client.Socket.WriteJSON(Action{
-							Type: "TARGET_DISCONNECTED",
-						})
-					}
+					ws.WriteJSON(Action{
+						Type: "TARGET_DISCONNECTED",
+					})
 				} else {
 					c, _ := clients.Get(id)
 					clients.Set(id, Client{

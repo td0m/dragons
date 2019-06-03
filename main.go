@@ -205,7 +205,7 @@ func main() {
 	addr := ("0.0.0.0:" + port)
 
 	http.HandleFunc("/ws", handleWsConnection)
-
+	
 	files, _ := ioutil.ReadDir("./client")
 	log.Println(files)
 

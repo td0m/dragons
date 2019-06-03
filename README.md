@@ -1,91 +1,101 @@
-# Go API with a Static Frontend on ZEIT Now
+# Dragons
 
-**Live Demo**: https://go.now-examples.now.sh/
+## TODO
 
-This example shows a pre-setup project including:
-- An `api` directory, containing a single endpoint that retrieves the current time with Golang.
-- A `www` directory, containing static files such as `index.html` and `style.css` that show a frontend with information from the API.
+- [ ] Script for disabling antivirus, downloading the backdoor exe file, executing it, enabling antivirus after making that one file an exception
 
-## Get Started with This Project
+## This repo contains:
 
-To get started with this project yourself, you can use [Now CLI](https://zeit.co/download) to initialize it.
+- an implementation of the **server** for the dragons infrastructure, built with Go.
+- an implementation of the **client** that allows the user to interface with the framework, built with React and Typescript.
+- a Go-based, open-source implementation of the **target** service (background console applicaiton) used to demonstrate the abilities of dragons. It DOES NOT aim to support all the listed features / be stable as it IS NOT actively maintained. It's here for demonstration / testing purposes, and if you are looking for a FUD (Fully UnDetectable) implementaition, you'll have to write it yourself. If you do decide to implement one yourself, feel free to interface it with the already existing server, as long as you follow the API it will work flawlessly with any implementation.
 
-From your terminal, use the following command to create a directory called `my-go-project` including the files of this example:
+## This repo is not:
 
-```bash
-now init go my-go-project
-```
+- malware. The only purpose of this is to provide penetration testers with a well built core framework they can use.
 
-Then, `cd` into your new project's directory (with `cd my-go-project`).
+## Actions
 
-You now have a project, ready to go into development, staging, or production with Now. Your next step is up to you. Try one of the following:
+Here is a list of actions / request types that are supported by the client. As the server is just be a simple framework allowing clients and targets to communicate with each other, each one of those features only need to be implemented by the client and the target. The following table only shows whether the feature has been implemented on the client, the built-in Go-based target is not included in the following table.
 
-#### Local Development
+| Implemented? | Type                      | Description                                                         |
+| ------------ | ------------------------- | ------------------------------------------------------------------- |
+| ⬜️          | **SCREENSHOT**            | Screenshot a screen                                                 |
+| ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                       |
+| ⬜️          | **WEBCAM_SNAP**           | Snap a picture of the webcam                                        |
+| ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                              |
+| ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                        |
+| ⬜️          | **WRITE_CLIPBOARD_TEXT**  | Write string to clipboard                                           |
+| ⬜️          | **WRITE_CLIPBOARD_IMAGE** | Send image to clipboard                                             |
+| ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                       |
+| ⬜️          | **SET_VOLUME**            | Set audio volume                                                    |
+| ⬜️          | **GET_VOLUME**            | Get audio volume                                                    |
+| ⬜️          | **RECORD_AUDIO_START**    | Play audio                                                          |
+| ⬜️          | **RECORD_AUDIO_END**      | Stop recording audio,save it in a file and upload it                |
+| ⬜️          | **RECORD_AUDIO_DURATION** | Equivalent of RECORD_AUDIO_START, sleep x seconds, RECORD_AUDIO_END |
+| ⬜️          | **PLAY_AUDIO_FILE**       | Play audio from target's local file                                 |
+| ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                         |
+| ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                             |
+| ⬜️          | **LS**                    | List files and directories in a given directory                     |
+| ⬜️          | **DOWNLOAD**              | Receive file from client                                            |
+| ⬜️          | **UPLOAD**                | Requests file at a given path to be uploaded to server              |
 
-Using Now CLI, as you did to initialize this project, you can use the following command from your terminal to start a development environment locally which replicates the production environment on Now so you can test your new project:
+## Server API
 
-```bash
-now dev
-```
+The server uses the websocket protocol for handling its requests. You can imagine it as a bridge between the client and the server just with a few extra added utilities. I decided to go with websockets as it allows real time communication and allows the server to see when a device has disconnected.
 
-#### Automatic Deployments with Git
-
-Using either [Now for GitHub](https://zeit.co/github) or [Now for GitLab](https://zeit.co/gitlab), you can push this project to a Git repository and it will deploy automatically.
-
-If on anything other than the default branch, with each push your project will be deployed, automatically, to a unique staging URL.
-
-If pushing or merging to the default branch, your project will be deployed and aliased in a production environment, automatically.
-
-Read more about the ZEIT Now Git Integrations:
-- [Now for GitHub](https://zeit.co/docs/v2/integrations/now-for-github/)
-- [Now for GitLab](https://zeit.co/docs/v2/integrations/now-for-gitlab/)
-
-
-#### Deploying from Your Terminal
-
-Using [Now CLI](https://zeit.co/download), you can also deploy to both [staging](https://zeit.co/docs/v2/domains-and-aliases/aliasing-a-deployment#staging) and [production](https://zeit.co/docs/v2/domains-and-aliases/aliasing-a-deployment#production) environments from your terminal.
-
-For a staging deployment, you can use the following one-word command:
-```bash
-now
-```
-
-Then, for production, including automatic aliasing, you can use the following:
-```bash
-now --target production
-```
-
-For more information on deploying, see the [Deployment Basics documentation](https://zeit.co/docs/v2/deployments/basics#introducing-a-build-step).
-
-## Configuration Breakdown
-
-This example contains a `now.json` file which instructs Now how to treat this project when developing locally and deploying. 
-
-```json
-{
-  "version": 2,
-  "name": "my-go-project",
-  "builds": [
-    { "src": "www/**/*", "use": "@now/static" },
-    { "src": "api/**/*.go", "use": "@now/go" }
-  ],
-  "routes": [
-    { "src": "/", "dest": "www/index.html" }
-  ]
+```typescript
+interface Clients {
+  [id: string]: {
+    socket: Websocket;
+    target: string; // target id of the target client is connected to
+  };
 }
 ```
 
-The above instructs Now with:
+```typescript
+interface Targets {
+  [id: string]: {
+    socket: Websocket;
+    client: string; // client id of the client target is connected to
+  };
+}
+```
 
-- The [`version` property](https://zeit.co/docs/v2/deployments/configuration#version), specifying the latest Now 2.0 Platform version.
-- The [`name` property](https://zeit.co/docs/v2/deployments/configuration#name), setting the name for the deployment.
-- The [`builds` property](https://zeit.co/docs/v2/deployments/configuration#builds), allowing Now to use [the @now/go Builder](https://zeit.co/docs/v2/deployments/official-builders/go-now-go) with a specific source target.
-- The [`routes` property](https://zeit.co/docs/v2/deployments/configuration#routes), instructing Now to route the user to the `www/index.html` file when requesting the root path.
+## Requests
 
-For more information on configuring Now, see the [Configuration documentation](https://zeit.co/docs/v2/deployments/configuration).
+| Name                  | Payload Type | Description                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CONNECT_CLIENT**    | `None`       | Sent by the client in order to listen for targets connecting / disconnecting. Client gets a random generated id and used as a key when adding the `ws` instance to the client dictionary.                                                                                                                                                                                                                                                      |
+| **CONNECT_TARGET**    | `None`       | Sent by the client in order to acknowledge its existence & inform the users. `TargetConnection.deviceInfo.name` is used as a key when adding the target's `ws` to the target dictionary. Will send **UPDATE_STATE** to all the clients.                                                                                                                                                                                                        |
+| **CONNECT_TO_TARGET** | `string`     | Sent by a client to connect to a target. If successful, the client id will be sent to the target using **CONNECT_TO_TARGET** request action and client will receive **TARGET_CONNECTED**. The `target` id in the `Clients` dictionary will be set to that id and sets the `client` id in the `Targets` dictionary. If connection error occured, a **TARGET_DISCONNECTED** response will be sent and the `target` in `Clients` will be cleared. |  |
 
-## Resources
+TODO: document rest of requests
 
-Learn more about the ZEIT Now platform from [our documentation](https://zeit.co/docs), including:
-- [More information on deploying Go projects](https://zeit.co/docs/v2/deployments/official-builders/go-now-go) and some technical details.
-- [More information on the platform itself](https://zeit.co/docs), including [domains and aliasing](https://zeit.co/docs/v2/domains-and-aliases/introduction/) and [local development](https://zeit.co/docs/v2/development/basics/).
+### Flow
+
+```
+(T) -> (S) CONNECT_TARGET / DISCONNECT
+        |
+    ____|_____  UPDATE_STATE
+   |    |    |
+  (C)  (C)  (C)
+
+(C) -> (S) CONNECT_CLIENT   -   (C) will now listen for and receive UPDATE_STATE events
+
+(C) -> (S) CONNECT_TO_TARGET(targetID)    -    If possible, devices will be connected and all their events will be passed through to each other
+
+(C/T) -> (S) DISCONNECT   -   clear the connections / associations that involve the (C/T). Delete that (C/T) from the map, we don't need to keep track of terminated communications.
+
+(C) <-> (S) <-> (T)    -    ACTION,   action usually started by (C) will go to the server and be passed through to (T) and the response, if there is any, will go back to (S) and be passed through to (C).
+
+```
+
+### Types
+
+```typescript
+interface Action {
+  type: string;
+  payload: string;
+}
+```

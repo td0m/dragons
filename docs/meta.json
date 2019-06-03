@@ -1,0 +1,6 @@
+{
+  "name": "Dragons",
+  "year": 2019,
+  "description": "This was originally an investigation into Go and its theading/concurrency but quickly became a Windows 10 based \"exploiltation framework\" like metasploit, allowing reverse shell execution, persistance, key & clipboard sniffing and much more.",
+  "screenshots": ["s1.png", "s2.png"]
+}

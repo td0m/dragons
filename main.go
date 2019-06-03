@@ -207,6 +207,7 @@ func main() {
 	http.HandleFunc("/v1", handleWsConnection)
 
 	files, _ := ioutil.ReadDir("./client")
+	log.Println(files)
 
 	wd, _ := os.Getwd()
 	dir := path.Join(wd, "/client/build/")

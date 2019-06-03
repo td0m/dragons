@@ -59,7 +59,7 @@ const useDragonsState = () => {
     events.add(data);
     switch (type) {
       case "UPDATE_STATE":
-        state.set({ ...state.value, targets: payload.targets });
+        state.set(payload);
         setConnectionState(ConnectionState.Connected);
         break;
       case "TARGET_CONNECTED":

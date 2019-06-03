@@ -14,7 +14,8 @@ export default function NetworkStatus() {
         <Table
           data={{
             STATE: online ? "ONLINE" : "OFFLINE",
-            SERVER: state.connectionState
+            SERVER: state.connectionState,
+            CLIENTS: state.state.clients.length
           }}
         />
       </Tile>

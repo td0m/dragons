@@ -13,7 +13,7 @@ export class Action {
 
 const useDragonsState = () => {
   const websocket = useMemo(
-    () => new WebSocket("ws://dragons-cloud.herokuapp.com/ws"),
+    () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
     []
   );
   const [targets, setTargets] = useState([]);

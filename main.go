@@ -50,7 +50,7 @@ type StateAction struct {
 // State struct
 type State struct {
 	Targets []string `json:"targets"`
-	Clients []string `json:"targets"`
+	Clients []string `json:"clients"`
 }
 
 // Action struct

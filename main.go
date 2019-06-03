@@ -204,7 +204,7 @@ func main() {
 	port := os.Getenv("PORT")
 	addr := ("0.0.0.0:" + port)
 
-	http.HandleFunc("/ws", handleWsConnection)
+	http.HandleFunc("/v1", handleWsConnection)
 	
 	files, _ := ioutil.ReadDir("./client")
 	log.Println(files)

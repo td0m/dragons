@@ -49,7 +49,8 @@ type StateAction struct {
 
 // State struct
 type State struct {
-	Targets []string `json:"targets"`
+	Targets []string `json:"targets"`,
+	Clients []string `json:"clients"`,
 }
 
 // Action struct
@@ -81,6 +82,7 @@ func notifyClient(ws websocket.Conn) {
 		Type: "UPDATE_STATE",
 		Payload: State{
 			Targets: targets.Keys(),
+			Clients: clients.Keys(),
 		},
 	})
 }
@@ -160,7 +162,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			clients.Set(id, Client{
 				Socket: ws,
 			})
-			notifyClient(*ws)
+			notifyClients()
 			printCount()
 		case "CONNECT_TO_TARGET":
 			loginAction := ConnectToTargetAction{}

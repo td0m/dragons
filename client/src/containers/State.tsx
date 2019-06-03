@@ -46,7 +46,6 @@ const useDragonsState = () => {
         break;
       case "TARGET_CONNECTED":
         setConnectionState(ConnectionState.TargetConnected);
-        send({ type: "WEBCAM_SNAP" });
         break;
       case "TARGET_DISCONNECTED":
         setConnectionState(ConnectionState.Connected);
@@ -56,6 +55,9 @@ const useDragonsState = () => {
         break;
       case "WEBCAM_SNAP":
         setScreenshot(payload);
+        break;
+      case "FILE":
+        setScreenshot(payload.bytes);
         break;
     }
   };
@@ -73,7 +75,8 @@ const useDragonsState = () => {
     targets,
     connectionState,
     screenshot,
-    connectTo
+    connectTo,
+    send
   };
 };
 

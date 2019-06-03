@@ -37,8 +37,8 @@ Here is a list of actions / request types that are supported by the client. As t
 | ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                         |
 | ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                             |
 | ⬜️          | **LS**                    | List files and directories in a given directory                     |
-| ⬜️          | **DOWNLOAD**              | Receive file from client                                            |
-| ⬜️          | **UPLOAD**                | Requests file at a given path to be uploaded to server              |
+| ⬜️          | **FILE**              | Receive file from client/target                                            |
+| ⬜️          | **REQUEST_FILE**                | Requests file at a given path to be uploaded to server              |
 
 ## Server API
 

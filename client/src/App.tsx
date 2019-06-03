@@ -6,6 +6,7 @@ import Divider from "./components/Divider";
 import NetworkStatus from "./components/NetworkStatus";
 import TargetView from "./components/TargetView";
 import State, { ConnectionState } from "./containers/State";
+import TargetActions from "./components/TargetActions";
 
 const App: React.FC = () => {
   const { screenshot } = State.use();
@@ -21,6 +22,8 @@ const App: React.FC = () => {
         <NetworkStatus />
         <Divider />
         <TargetView />
+        <Divider />
+        <TargetActions />
         {screenshot && (
           <img
             width={200}

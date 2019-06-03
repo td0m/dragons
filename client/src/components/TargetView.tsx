@@ -9,13 +9,15 @@ export default function TargetView() {
     state.connectTo(t);
   };
 
+  const targets = state.targets.map(t => (
+    <div className="target-item" onClick={() => onClick(t)} key={t}>
+      {t}
+    </div>
+  ));  
+
   return (
     <Tile title="TARGETS">
-      {state.targets.map(t => (
-        <div className="target-item" onClick={() => onClick(t)} key={t}>
-          {t}
-        </div>
-      ))}
+      {state.targets.length > 0 ? targets : <div className="text-darker">No targets found.</div>}
     </Tile>
   );
 }

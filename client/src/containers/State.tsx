@@ -43,6 +43,8 @@ const useDragonsState = () => {
 
   const send = (action: Action) => websocket.send(JSON.stringify(action));
 
+  (window as any).websocket = websocket;
+
   const onOpen = () => {
     console.log("OPEN");
     setConnectionState(ConnectionState.Connected);

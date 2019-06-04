@@ -1,11 +1,5 @@
 # Dragons
 
-## TODO
-
-- [ ] Script for disabling antivirus, downloading the backdoor exe file, executing it, enabling antivirus after making that one file an exception
-- [ ] Try and compress the images that are being sent over the network
-- [ ] Make the password dialog a form, automatically closes on ESC, submits on ENTER, input type=password
-
 ## This repo contains:
 
 - an implementation of the **server** for the dragons infrastructure, built with Go.
@@ -20,28 +14,29 @@
 
 Here is a list of actions / request types that are supported by the client. As the server is just be a simple framework allowing clients and targets to communicate with each other, each one of those features only need to be implemented by the client and the target. The following table only shows whether the feature has been implemented on the client, the built-in Go-based target is not included in the following table.
 
-| Implemented? | Type                      | Description                                                         |
-| ------------ | ------------------------- | ------------------------------------------------------------------- |
-| ✅           | **SCREENSHOT**            | Screenshot a screen                                                 |
-| ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                       |
-| ✅           | **WEBCAM_SNAP**           | Snap a picture of the webcam                                        |
-| ⬜️          | **NOTIFY**                | Display a notification to the user                                  |
-| ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                              |
-| ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                        |
-| ⬜️          | **WRITE_CLIPBOARD_TEXT**  | Write string to clipboard                                           |
-| ⬜️          | **WRITE_CLIPBOARD_IMAGE** | Send image to clipboard                                             |
-| ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                       |
-| ⬜️          | **SET_VOLUME**            | Set audio volume                                                    |
-| ⬜️          | **GET_VOLUME**            | Get audio volume                                                    |
-| ⬜️          | **RECORD_AUDIO_START**    | Play audio                                                          |
-| ⬜️          | **RECORD_AUDIO_END**      | Stop recording audio,save it in a file and upload it                |
-| ⬜️          | **RECORD_AUDIO_DURATION** | Equivalent of RECORD_AUDIO_START, sleep x seconds, RECORD_AUDIO_END |
-| ⬜️          | **PLAY_AUDIO_FILE**       | Play audio from target's local file                                 |
-| ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                         |
-| ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                             |
-| ⬜️          | **LS**                    | List files and directories in a given directory                     |
-| ⬜️          | **FILE**                  | Receive file from client/target                                     |
-| ⬜️          | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server              |
+| Implemented? | Type                      | Description                                                          |
+| ------------ | ------------------------- | -------------------------------------------------------------------- |
+| ✅           | **SCREENSHOT**            | Screenshot a screen                                                  |
+| ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                        |
+| ✅           | **WEBCAM_SNAP**           | Snap a picture of the webcam                                         |
+| ⬜️          | **NOTIFY**                | Display a notification to the user                                   |
+| ⬜️          | **FORCE_RESET**           | Forces the target to do a hard reset of the target's dragons service |
+| ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                               |
+| ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                         |
+| ⬜️          | **WRITE_CLIPBOARD_TEXT**  | Write string to clipboard                                            |
+| ⬜️          | **WRITE_CLIPBOARD_IMAGE** | Send image to clipboard                                              |
+| ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                        |
+| ⬜️          | **SET_VOLUME**            | Set audio volume                                                     |
+| ⬜️          | **GET_VOLUME**            | Get audio volume                                                     |
+| ⬜️          | **RECORD_AUDIO_START**    | Play audio                                                           |
+| ⬜️          | **RECORD_AUDIO_END**      | Stop recording audio,save it in a file and upload it                 |
+| ⬜️          | **RECORD_AUDIO_DURATION** | Equivalent of RECORD_AUDIO_START, sleep x seconds, RECORD_AUDIO_END  |
+| ⬜️          | **PLAY_AUDIO_FILE**       | Play audio from target's local file                                  |
+| ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                          |
+| ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                              |
+| ⬜️          | **LS**                    | List files and directories in a given directory                      |
+| ⬜️          | **FILE**                  | Receive file from client/target                                      |
+| ⬜️          | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server               |
 
 ## Server API
 

@@ -22,6 +22,7 @@ Here is a list of actions / request types that are supported by the client. As t
 | ⬜️          | **RECORD_AUDIO_END**      | Stop recording audio,save it in a file and upload it                 |
 | ⬜️          | **RECORD_AUDIO_DURATION** | Equivalent of RECORD_AUDIO_START, sleep x seconds, RECORD_AUDIO_END  |
 | ⬜️          | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server               |
+| ⬜️          | **RUN_EXECUTABLE**        | Run executable on the target                                         |
 | ⬜️          | **SET_VOLUME**            | Set audio volume                                                     |
 | ✅           | **SCREENSHOT**            | Screenshot a screen                                                  |
 | ✅           | **WEBCAM_SNAP**           | Snap a picture of the webcam                                         |

@@ -26,7 +26,7 @@ const useEvents = () => {
         size="small"
         color="inherit"
         onClick={() =>
-          downloadBytes([base64ToBytes(action.payload)], "screenshot.jpg")
+          downloadBytes([base64ToBytes(action.payload)], "frame.jpg")
         }
       >
         <DownloadIcon />

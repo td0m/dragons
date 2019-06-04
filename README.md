@@ -3,6 +3,8 @@
 ## TODO
 
 - [ ] Script for disabling antivirus, downloading the backdoor exe file, executing it, enabling antivirus after making that one file an exception
+- [ ] Try and compress the images that are being sent over the network
+- [ ] Make the password dialog a form, automatically closes on ESC, submits on ENTER, input type=password
 
 ## This repo contains:
 

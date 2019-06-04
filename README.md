@@ -6,27 +6,27 @@ Here is a list of actions / request types that are supported by the client. As t
 
 | Implemented? | Type                      | Description                                                          |
 | ------------ | ------------------------- | -------------------------------------------------------------------- |
-| ✅           | **SCREENSHOT**            | Screenshot a screen                                                  |
-| ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                        |
-| ✅           | **WEBCAM_SNAP**           | Snap a picture of the webcam                                         |
-| ⬜️          | **NOTIFY**                | Display a notification to the user                                   |
-| ⬜️          | **FORCE_RESET**           | Forces the target to do a hard reset of the target's dragons service |
 | ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                               |
 | ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                         |
-| ⬜️          | **WRITE_CLIPBOARD_TEXT**  | Write string to clipboard                                            |
-| ⬜️          | **WRITE_CLIPBOARD_IMAGE** | Send image to clipboard                                              |
 | ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                        |
-| ⬜️          | **SET_VOLUME**            | Set audio volume                                                     |
+| ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                        |
+| ⬜️          | **FILE**                  | Receive file from client/target                                      |
+| ⬜️          | **FORCE_RESET**           | Forces the target to do a hard reset of the target's dragons service |
+| ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                              |
 | ⬜️          | **GET_VOLUME**            | Get audio volume                                                     |
+| ⬜️          | **LS**                    | List files and directories in a given directory                      |
+| ⬜️          | **NOTIFY**                | Display a notification to the user                                   |
+| ⬜️          | **PLAY_AUDIO_FILE**       | Play audio from target's local file                                  |
+| ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                          |
 | ⬜️          | **RECORD_AUDIO_START**    | Play audio                                                           |
 | ⬜️          | **RECORD_AUDIO_END**      | Stop recording audio,save it in a file and upload it                 |
 | ⬜️          | **RECORD_AUDIO_DURATION** | Equivalent of RECORD_AUDIO_START, sleep x seconds, RECORD_AUDIO_END  |
-| ⬜️          | **PLAY_AUDIO_FILE**       | Play audio from target's local file                                  |
-| ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                          |
-| ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                              |
-| ⬜️          | **LS**                    | List files and directories in a given directory                      |
-| ⬜️          | **FILE**                  | Receive file from client/target                                      |
 | ⬜️          | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server               |
+| ⬜️          | **SET_VOLUME**            | Set audio volume                                                     |
+| ✅           | **SCREENSHOT**            | Screenshot a screen                                                  |
+| ✅           | **WEBCAM_SNAP**           | Snap a picture of the webcam                                         |
+| ⬜️          | **WRITE_CLIPBOARD_TEXT**  | Write string to clipboard                                            |
+| ⬜️          | **WRITE_CLIPBOARD_IMAGE** | Send image to clipboard                                              |
 
 ## This repo contains:
 

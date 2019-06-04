@@ -55,3 +55,15 @@ Here is a list of actions / request types that are supported by the client. As t
 (C) <-> (S) <-> (T)    -    ACTION,   action usually started by (C) will go to the server and be passed through to (T) and the response, if there is any, will go back to (S) and be passed through to (C).
 
 ```
+
+## Other Considerations
+
+### Direct Peer-to-peer connection
+
+Originally, I planned implementing [UDP hole punching](https://en.wikipedia.org/wiki/UDP_hole_punching) which would allow sending
+messages directly between target and client in order to avoid that load on the server, especially on more bandwidth-heavy
+real-time uses such as live screen video feed. This however wasn't an option if I wanted to use a web client. Only alternative would
+be [WebRTC data channels](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Using_data_channels) which on the other hand
+doesn't have a great implementation for languages other than JS and even on the web it's only a draft at the moment. Final reason not
+to use this is heavy bandwidth usage which might be noticed by the target / target's antivirus, so I decided to leave out the streaming
+feature completely, but I might decide to test it out and see whether it's detectable.

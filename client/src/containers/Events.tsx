@@ -8,16 +8,16 @@ import DownloadIcon from "@material-ui/icons/VerticalAlignBottomRounded";
 import { Action } from "./State";
 import { base64ToBytes, downloadBytes } from "../services/encoding";
 
-const defaults = ["UPDATE_STATE", "TARGET_CONNECTED"];
+const defaults = ["UPDATE_STATE"];
 
-const getVariant = (type: string): "default" | "info" | "error" => {
-  if (defaults.indexOf(type) > -1) return "default";
+const getVariant = (type: string): "default" | "info" | "error" | "success" => {
   if (type === "TARGET_DISCONNECTED") return "error";
+  if (type === "TARGET_CONNECTED") return "success";
+  if (defaults.indexOf(type) > -1) return "default";
   return "info";
 };
 
 const useEvents = () => {
-  const [value, set] = useState<Action[]>([]);
   const snackbar = useSnackbar();
 
   const createAction = (action: Action) => (key: string) => {
@@ -55,7 +55,6 @@ const useEvents = () => {
   };
 
   const add = (action: Action) => {
-    set([action, ...value]);
     if (action.type !== "PING" && action.type !== "UPDATE_STATE") {
       snackbar.enqueueSnackbar(action.type, {
         variant: getVariant(action.type),
@@ -66,7 +65,6 @@ const useEvents = () => {
   };
 
   return {
-    value,
     add
   };
 };

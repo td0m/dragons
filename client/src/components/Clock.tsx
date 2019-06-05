@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useState } from "@hook-state/core";
 
 export default function Clock() {
   const [bool, setBool] = useState(false);
-  const refresh = () => setBool(!bool);
+  const refresh = useCallback(() => setBool(!bool), [bool]);
 
   useEffect(() => {
     setTimeout(refresh, 1000);
-  }, [bool]);
+  }, [refresh]);
 
   const now = new Date();
   let h = `${now.getHours()}`;

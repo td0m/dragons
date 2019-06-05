@@ -1,5 +1,5 @@
 import React from "react";
-import createContainer, { useState } from "@hook-state/core";
+import createContainer from "@hook-state/core";
 import { useSnackbar } from "notistack";
 import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";

@@ -34,6 +34,18 @@
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+.tile-titlenav {
+  display: flex;
+  align-items: center;
+}
+.tile-icon {
+  margin: 0 2px 0 0;
+  transition: all 0.2s ease;
+  transform: rotate(-90deg);
+}
+.tile-icon.-closed {
+  transform: rotate(0deg);
+}
 .tile-title {
   font-weight: 500;
   font-size: 1.1rem;

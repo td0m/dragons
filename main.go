@@ -93,7 +93,7 @@ func CreateIdentifier(name string) string {
 	if _, ok := targets.Get(id); ok {
 		return CreateIdentifier(name)
 	}
-	return name
+	return id
 }
 
 func printCount() {
@@ -176,6 +176,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(message, &connectTargetAction)
 			isTarget = true
 			id = CreateIdentifier(connectTargetAction.Payload.Name)
+			log.Println(id)
 			targets.Set(id, Target{
 				Socket:     ws,
 				DeviceInfo: connectTargetAction.Payload,

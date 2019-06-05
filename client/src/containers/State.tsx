@@ -21,6 +21,14 @@ export class Action {
   constructor(public type: string, public payload?: any) {}
 }
 
+export class TargetDetails {
+  public constructor(
+    public name: string = "",
+    public localIp: string = "",
+    public features: string[] = []
+  ) {}
+}
+
 const initial = {
   targets: [],
   clients: []
@@ -38,6 +46,7 @@ const useDragonsState = () => {
     ConnectionState.Disconnected
   );
   const [screenshot, setScreenshot] = useState("");
+  const [target, setTarget] = useState<TargetDetails>(new TargetDetails());
   const password = useString("");
   const events = Events.use();
 
@@ -66,9 +75,11 @@ const useDragonsState = () => {
         setConnectionState(ConnectionState.Connected);
         break;
       case "TARGET_CONNECTED":
+        setTarget(payload);
         setConnectionState(ConnectionState.TargetConnected);
         break;
       case "TARGET_DISCONNECTED":
+        setTarget(new TargetDetails());
         setConnectionState(ConnectionState.Connected);
         break;
       case "SCREENSHOT":
@@ -102,7 +113,8 @@ const useDragonsState = () => {
     connectTo,
     send,
     events,
-    password
+    password,
+    target
   };
 };
 

@@ -36,9 +36,9 @@ type Client struct {
 
 // Target struct
 type Target struct {
-	Socket   *websocket.Conn
-	Client   string
-	Password string
+	Socket     *websocket.Conn
+	Client     string
+	DeviceInfo DeviceInfo
 }
 
 // StateAction action
@@ -59,17 +59,42 @@ type Action struct {
 	Payload string `json:"payload"`
 }
 
+// LoginDetails used to Connect to target
 type LoginDetails struct {
 	ID       string `json:"id"`
 	Password string `json:"password"`
 }
+
+// ConnectToTargetAction used as CONNECT_TO_TARGET
 type ConnectToTargetAction struct {
 	Type    string       `json:"type"`
 	Payload LoginDetails `json:"payload"`
 }
 
+// ConnectTarget used as CONNECT_TARGET
+type ConnectTargetAction struct {
+	Type    string     `json:"type"`
+	Payload DeviceInfo `json:"payload"`
+}
+
+type DeviceInfo struct {
+	Password string   `json:"password"`
+	Name     string   `json:"name"`
+	LocalIP  string   `json:"localIp"`
+	Features []string `json:"features"`
+}
+
 var clients = cmap.New()
 var targets = cmap.New()
+
+func CreateIdentifier(name string) string {
+	hex, _ := RandomHex(4)
+	id := name + " " + hex
+	if _, ok := targets.Get(id); ok {
+		return CreateIdentifier(name)
+	}
+	return name
+}
 
 func printCount() {
 	c := len(clients.Keys())
@@ -131,8 +156,8 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 					if len(targetID) > 0 {
 						t, _ := targets.Get(targetID)
 						targets.Set(targetID, Target{
-							Socket:   t.(Target).Socket,
-							Password: t.(Target).Password,
+							Socket:     t.(Target).Socket,
+							DeviceInfo: t.(Target).DeviceInfo,
 						})
 					}
 					clients.Remove(id)
@@ -147,11 +172,13 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 
 		switch action.Type {
 		case "CONNECT_TARGET":
+			connectTargetAction := ConnectTargetAction{}
+			json.Unmarshal(message, &connectTargetAction)
 			isTarget = true
-			id, _ = RandomHex(5)
+			id = CreateIdentifier(connectTargetAction.Payload.Name)
 			targets.Set(id, Target{
-				Socket:   ws,
-				Password: action.Payload,
+				Socket:     ws,
+				DeviceInfo: connectTargetAction.Payload,
 			})
 			notifyClients()
 			printCount()
@@ -170,7 +197,7 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 
 			if targetRaw, ok := targets.Get(loginAction.Payload.ID); ok {
 				target := targetRaw.(Target)
-				passwordsMatch := loginAction.Payload.Password == target.Password
+				passwordsMatch := loginAction.Payload.Password == target.DeviceInfo.Password
 				if len(target.Client) > 0 || !passwordsMatch {
 					ws.WriteJSON(Action{
 						Type: "TARGET_DISCONNECTED",
@@ -183,17 +210,17 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 					})
 					t, _ := targets.Get(loginAction.Payload.ID)
 					targets.Set(loginAction.Payload.ID, Target{
-						Socket:   t.(Target).Socket,
-						Password: t.(Target).Password,
-						Client:   id,
+						Socket:     t.(Target).Socket,
+						DeviceInfo: t.(Target).DeviceInfo,
+						Client:     id,
 					})
 
 					target.Socket.WriteJSON(Action{
 						Type: "CONNECT_TO_TARGET",
 					})
-					ws.WriteJSON(Action{
+					ws.WriteJSON(ConnectTargetAction{
 						Type:    "TARGET_CONNECTED",
-						Payload: action.Payload,
+						Payload: target.DeviceInfo,
 					})
 				}
 			}

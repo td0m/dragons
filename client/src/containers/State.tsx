@@ -12,9 +12,11 @@ export enum ConnectionState {
   TargetConnected = "TARGET CONNECTED"
 }
 
-export interface State {
-  targets: string[];
-  clients: string[];
+export class State {
+  public constructor(
+    public targets: string[] = [],
+    public clients: string[] = []
+  ) {}
 }
 
 export class Action {
@@ -29,18 +31,13 @@ export class TargetDetails {
   ) {}
 }
 
-const initial = {
-  targets: [],
-  clients: []
-};
-
 const useDragonsState = () => {
   const websocket = useMemo(
     // () => new WebSocket("ws://localhost/v1"),
     () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
     []
   );
-  const state = useObject<State>(initial);
+  const state = useObject<State>(new State());
 
   const [connectionState, setConnectionState] = useState<ConnectionState>(
     ConnectionState.Disconnected
@@ -62,7 +59,7 @@ const useDragonsState = () => {
 
   const onClose = () => {
     setConnectionState(ConnectionState.Disconnected);
-    state.set(initial);
+    state.set(new State());
   };
   const onMessage = (ev: MessageEvent) => {
     const data = JSON.parse(ev.data);
@@ -76,6 +73,7 @@ const useDragonsState = () => {
         break;
       case "TARGET_CONNECTED":
         setTarget(payload);
+        console.log(payload);
         setConnectionState(ConnectionState.TargetConnected);
         break;
       case "TARGET_DISCONNECTED":

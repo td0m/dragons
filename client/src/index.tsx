@@ -7,8 +7,8 @@ import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 
-import State from "./containers/State";
-import Events from "./containers/Events";
+import State from "containers/State";
+import Events from "containers/Events";
 
 const theme = createMuiTheme({
   typography: {

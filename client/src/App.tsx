@@ -1,13 +1,12 @@
 import React from "react";
-import "./App.css";
 
-import Clock from "./components/Clock";
-import Divider from "./components/Divider";
-import NetworkStatus from "./components/NetworkStatus";
-import TargetView from "./components/TargetView";
-import Main from "./components/Main";
-import TopActions from "./components/Layout/top/TopActions";
-import FeatureList from "./components/Layout/left/FeatureList";
+import Clock from "components/Clock";
+import Divider from "components/Divider";
+import NetworkStatus from "components/NetworkStatus";
+import TargetView from "components/TargetView";
+import Main from "components/Main";
+import TopActions from "components/Layout/top/TopActions";
+import FeatureList from "components/Layout/left/FeatureList";
 
 const App: React.FC = () => {
   return (

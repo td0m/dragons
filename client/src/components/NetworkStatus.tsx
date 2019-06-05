@@ -2,7 +2,7 @@ import React from "react";
 import Table from "./Table";
 import Tile from "./Tile";
 import { useOnline } from "@hook-state/core";
-import State from "../containers/State";
+import State from "containers/State";
 
 export default function NetworkStatus() {
   const online = useOnline();

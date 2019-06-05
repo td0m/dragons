@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Tile from "./Tile";
-import State from "../containers/State";
+import State from "containers/State";
 import {
   Dialog,
   DialogTitle,

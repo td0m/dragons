@@ -1,5 +1,5 @@
 import React from "react";
-import State from "../containers/State";
+import State from "containers/State";
 import ByteImg from "./ByteImg";
 
 export default function Main() {

@@ -1,5 +1,5 @@
 import React from "react";
-import State, { ConnectionState } from "../../../containers/State";
+import State, { ConnectionState } from "containers/State";
 import { IconButton } from "@material-ui/core";
 
 import FullscreenIcon from "@material-ui/icons/Fullscreen";

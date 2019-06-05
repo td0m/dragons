@@ -27,14 +27,15 @@ export class TargetDetails {
   public constructor(
     public name: string = "",
     public localIp: string = "",
-    public features: string[] = []
+    public features: string[] = [],
+    public ip: string = ""
   ) {}
 }
 
 const useApi = () => {
   const websocket = useMemo(
-    // () => new WebSocket("ws://localhost/v1"),
-    () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
+    () => new WebSocket("ws://localhost/v1"),
+    // () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
     []
   );
   const state = useObject<State>(new State());

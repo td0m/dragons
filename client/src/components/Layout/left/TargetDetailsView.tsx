@@ -16,7 +16,8 @@ export default function TargetDetailsView() {
         <Table
           data={{
             NAME: target.name,
-            "LOCAL IP": target.localIp
+            "LOCAL IP": target.localIp,
+            IP: target.ip
           }}
         />
       </Tile>

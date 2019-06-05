@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/gorilla/websocket"
 	cmap "github.com/orcaman/concurrent-map"
@@ -81,6 +82,7 @@ type DeviceInfo struct {
 	Password string   `json:"password"`
 	Name     string   `json:"name"`
 	LocalIP  string   `json:"localIp"`
+	IP  string   `json:"ip"`
 	Features []string `json:"features"`
 }
 
@@ -179,10 +181,17 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(message, &connectTargetAction)
 			isTarget = true
 			id = CreateIdentifier(connectTargetAction.Payload.Name)
-			log.Println(id)
+			info:=connectTargetAction.Payload
+			log.Println(r.RemoteAddr)
 			targets.Set(id, Target{
 				Socket:     ws,
-				DeviceInfo: connectTargetAction.Payload,
+				DeviceInfo: DeviceInfo{
+					Password: info.Password,
+					Name:     id,
+					LocalIP:  info.LocalIP,
+					IP:       r.RemoteAddr[0:strings.LastIndex(r.RemoteAddr, ":")],
+					Features: info.Features,
+				},
 			})
 			notifyClients()
 			printCount()

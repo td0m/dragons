@@ -82,7 +82,7 @@ type DeviceInfo struct {
 	Password string   `json:"password"`
 	Name     string   `json:"name"`
 	LocalIP  string   `json:"localIp"`
-	IP  string   `json:"ip"`
+	IP       string   `json:"ip"`
 	Features []string `json:"features"`
 }
 
@@ -181,10 +181,9 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			json.Unmarshal(message, &connectTargetAction)
 			isTarget = true
 			id = CreateIdentifier(connectTargetAction.Payload.Name)
-			info:=connectTargetAction.Payload
-			log.Println(r.RemoteAddr)
+			info := connectTargetAction.Payload
 			targets.Set(id, Target{
-				Socket:     ws,
+				Socket: ws,
 				DeviceInfo: DeviceInfo{
 					Password: info.Password,
 					Name:     id,
@@ -211,11 +210,20 @@ func handleWsConnection(w http.ResponseWriter, r *http.Request) {
 			if targetRaw, ok := targets.Get(loginAction.Payload.ID); ok {
 				target := targetRaw.(Target)
 				passwordsMatch := loginAction.Payload.Password == target.DeviceInfo.Password
-				if len(target.Client) > 0 || !passwordsMatch {
+				if !passwordsMatch {
 					ws.WriteJSON(Action{
 						Type: "TARGET_DISCONNECTED",
 					})
 				} else {
+					// override currently connected client
+					if len(target.Client) > 0 {
+						if client, ok := clients.Get(target.Client); ok {
+							client.(Client).Socket.WriteJSON(Action{
+								Type: "TARGET_DISCONNECTED",
+							})
+						}
+					}
+
 					c, _ := clients.Get(id)
 					clients.Set(id, Client{
 						Socket: c.(Client).Socket,

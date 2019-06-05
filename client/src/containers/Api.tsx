@@ -34,8 +34,8 @@ export class TargetDetails {
 
 const useApi = () => {
   const websocket = useMemo(
-    () => new WebSocket("ws://localhost/v1"),
-    // () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
+    // () => new WebSocket("ws://localhost/v1"),
+    () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
     []
   );
   const state = useObject<State>(new State());

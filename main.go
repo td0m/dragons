@@ -88,10 +88,13 @@ var clients = cmap.New()
 var targets = cmap.New()
 
 func CreateIdentifier(name string) string {
-	hex, _ := RandomHex(4)
-	id := name + " " + hex
-	if _, ok := targets.Get(id); ok {
-		return CreateIdentifier(name)
+	if _, ok := targets.Get(name); !ok {
+		return name
+	}
+	id := name
+	if _, ok := targets.Get(name); ok {
+		hex, _ := RandomHex(4)
+		id = name + " #" + hex
 	}
 	return id
 }

@@ -18,9 +18,11 @@ export default function TargetView() {
     setSelected(t);
   };
 
+  const close = () => setSelected("");
+
   const connect = () => {
     state.connectTo(selected);
-    setSelected("");
+    close();
   };
 
   const targets = state.state.targets.map(t => (
@@ -39,19 +41,30 @@ export default function TargetView() {
         )}
       </Tile>
       {state.state.targets.length > 0 && (
-        <Dialog open={selected.length > 0}>
-          <DialogTitle>Input password</DialogTitle>
-          <DialogContent>
-            <TextField
-              fullWidth
-              label="Password"
-              {...state.password.bindToInput}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setSelected("")}>Cancel</Button>
-            <Button onClick={connect}>Connect</Button>
-          </DialogActions>
+        <Dialog open={selected.length > 0} onClose={close}>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              connect();
+            }}
+          >
+            <DialogTitle>Authenticate</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                fullWidth
+                label="Password"
+                type="password"
+                {...state.password.bindToInput}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={close}>Cancel</Button>
+              <Button variant="contained" color="primary" type="submit">
+                Connect
+              </Button>
+            </DialogActions>
+          </form>
         </Dialog>
       )}
     </>

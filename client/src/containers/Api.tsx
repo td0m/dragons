@@ -31,7 +31,7 @@ export class TargetDetails {
   ) {}
 }
 
-const useDragonsState = () => {
+const useApi = () => {
   const websocket = useMemo(
     // () => new WebSocket("ws://localhost/v1"),
     () => new WebSocket("ws://dragons-cloud.herokuapp.com/v1"),
@@ -116,4 +116,4 @@ const useDragonsState = () => {
   };
 };
 
-export default createContainer(useDragonsState);
+export default createContainer(useApi);

@@ -7,7 +7,7 @@ import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 
-import State from "containers/State";
+import Api from "containers/Api";
 import Events from "containers/Events";
 
 const theme = createMuiTheme({
@@ -20,9 +20,9 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={5} dense>
       <Events.Provider>
-        <State.Provider>
+        <Api.Provider>
           <App />
-        </State.Provider>
+        </Api.Provider>
       </Events.Provider>
     </SnackbarProvider>
   </ThemeProvider>,

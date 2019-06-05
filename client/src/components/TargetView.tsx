@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Tile from "./Tile";
-import State from "containers/State";
+import Api from "containers/Api";
 import {
   Dialog,
   DialogTitle,
@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 export default function TargetView() {
-  const state = State.use();
+  const api = Api.use();
   const [selected, setSelected] = useState("");
 
   const onClick = (t: string) => {
@@ -21,11 +21,11 @@ export default function TargetView() {
   const close = () => setSelected("");
 
   const connect = () => {
-    state.connectTo(selected);
+    api.connectTo(selected);
     close();
   };
 
-  const targets = state.state.targets.map(t => (
+  const targets = api.state.targets.map(t => (
     <div className="target-item text-darker" onClick={() => onClick(t)} key={t}>
       {t}
     </div>
@@ -34,13 +34,13 @@ export default function TargetView() {
   return (
     <>
       <Tile title="TARGETS">
-        {state.state.targets.length > 0 ? (
+        {api.state.targets.length > 0 ? (
           targets
         ) : (
           <div className="text-darker">No targets found.</div>
         )}
       </Tile>
-      {state.state.targets.length > 0 && (
+      {api.state.targets.length > 0 && (
         <Dialog open={selected.length > 0} onClose={close}>
           <form
             onSubmit={e => {
@@ -55,7 +55,7 @@ export default function TargetView() {
                 fullWidth
                 label="Password"
                 type="password"
-                {...state.password.bindToInput}
+                {...api.password.bindToInput}
               />
             </DialogContent>
             <DialogActions>

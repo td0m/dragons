@@ -5,7 +5,7 @@ import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import DownloadIcon from "@material-ui/icons/VerticalAlignBottomRounded";
-import { Action } from "./State";
+import { Action } from "./Api";
 import { base64ToBytes, downloadBytes } from "../services/encoding";
 
 const defaults = ["UPDATE_STATE"];

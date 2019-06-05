@@ -1,12 +1,10 @@
 import React from "react";
-import State from "containers/State";
+import Api from "containers/Api";
 import ByteImg from "./ByteImg";
 
 export default function Main() {
-  const state = State.use();
+  const api = Api.use();
   return (
-    <div>
-      {state.screenshot && false && <ByteImg data={state.screenshot} />}
-    </div>
+    <div>{api.screenshot && false && <ByteImg data={api.screenshot} />}</div>
   );
 }

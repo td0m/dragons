@@ -7,6 +7,7 @@ import TargetView from "components/TargetView";
 import Main from "components/Main";
 import TopActions from "components/Layout/top/TopActions";
 import FeatureList from "components/Layout/left/FeatureList";
+import TargetDetailsView from "components/Layout/left/TargetDetailsView";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <NetworkStatus />
         <Divider />
         <TargetView />
+        <TargetDetailsView />
         <FeatureList />
       </div>
       <div className="main">

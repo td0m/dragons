@@ -11,6 +11,11 @@ import Api from "containers/Api";
 import Events from "containers/Events";
 
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#1c222c"
+    }
+  },
   typography: {
     fontFamily: "Roboto Mono"
   }

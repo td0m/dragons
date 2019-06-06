@@ -1,14 +1,25 @@
 import React, { FormEvent } from "react";
 import Api from "containers/Api";
 import { useString } from "@hook-state/core";
+import Stdout from "containers/Stdout";
 
 export default function Terminal() {
   const api = Api.use();
+  const stdout = Stdout.use();
   const input = useString("");
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    api.send({ type: "EXEC", payload: input.value });
+    switch (input.value) {
+      case "clear":
+      case "clean":
+      case "cls":
+        stdout.set([]);
+        break;
+      default:
+        api.send({ type: "EXEC", payload: input.value });
+        break;
+    }
     input.set("");
   };
 

@@ -174,7 +174,7 @@ body {
   display: block;
   width: 12px;
   height: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--theme-bg);
   transition: all 0.2s ease;
   border-radius: 50%;
   position: absolute;

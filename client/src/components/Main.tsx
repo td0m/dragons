@@ -9,13 +9,29 @@ const GridLayout = WidthProvider(Responsive);
 
 export default function Main() {
   const api = Api.use();
-  var [layouts, setLayouts] = useState<Layout[]>(
+
+  const features = (features: string[]) => {
+    for (let f of features) {
+      if (api.target.features.indexOf(f) === -1) return false;
+    }
+    return true;
+  };
+
+  const [layouts, setLayouts] = useState<Layout[]>(
     [
       { i: "terminal", x: 1, y: 0, w: 8, h: 1 },
       { i: "terminal-output", x: 1, y: 2, w: 8, h: 3 }
     ]
     // { persist: "layouts" }
   );
+  const tiles = [
+    { component: <Terminal />, features: ["EXEC"], key: "terminal" },
+    {
+      component: <TerminalOutput />,
+      features: ["EXEC"],
+      key: "terminal-output"
+    }
+  ];
 
   return (
     <div style={{ margin: 20 }}>
@@ -33,12 +49,11 @@ export default function Main() {
             lg: layouts
           }}
         >
-          <div key="terminal">
-            <Terminal />
-          </div>
-          <div key="terminal-output">
-            <TerminalOutput />
-          </div>
+          {tiles
+            .filter(t => features(t.features))
+            .map(tile => (
+              <div key={tile.key}>{tile.component}</div>
+            ))}
         </GridLayout>
       </div>
     </div>

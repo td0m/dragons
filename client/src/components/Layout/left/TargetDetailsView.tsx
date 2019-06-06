@@ -1,7 +1,7 @@
 import React from "react";
 import Api, { ConnectionState } from "containers/Api";
 import Divider from "components/Divider";
-import Tile from "components/Tile";
+import Section from "components/Section";
 import Table from "components/Table";
 
 export default function TargetDetailsView() {
@@ -12,7 +12,7 @@ export default function TargetDetailsView() {
   return (
     <>
       <Divider />
-      <Tile title="TARGET DETAILS">
+      <Section title="TARGET DETAILS">
         <Table
           data={{
             NAME: target.name,
@@ -20,7 +20,7 @@ export default function TargetDetailsView() {
             IP: target.ip
           }}
         />
-      </Tile>
+      </Section>
     </>
   );
 }

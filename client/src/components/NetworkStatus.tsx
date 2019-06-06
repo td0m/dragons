@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "./Table";
-import Tile from "./Tile";
+import Section from "./Section";
 import { useOnline } from "@hook-state/core";
 import Api from "containers/Api";
 
@@ -10,7 +10,7 @@ export default function NetworkStatus() {
 
   return (
     <div>
-      <Tile title="NETWORK">
+      <Section title="NETWORK">
         <Table
           data={{
             STATE: online ? "ONLINE" : "OFFLINE",
@@ -18,7 +18,7 @@ export default function NetworkStatus() {
             CLIENTS: api.state.clients.length
           }}
         />
-      </Tile>
+      </Section>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Tile from "./Tile";
+import Section from "./Section";
 import Api from "containers/Api";
 import {
   Dialog,
@@ -33,13 +33,13 @@ export default function TargetView() {
 
   return (
     <>
-      <Tile title="TARGETS">
+      <Section title="TARGETS">
         {api.state.targets.length > 0 ? (
           targets
         ) : (
           <div className="text-darker">No targets found.</div>
         )}
-      </Tile>
+      </Section>
       {api.state.targets.length > 0 && (
         <Dialog open={selected.length > 0} onClose={close}>
           <form

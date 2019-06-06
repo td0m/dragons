@@ -1,6 +1,6 @@
 import React from "react";
 import Api, { ConnectionState } from "containers/Api";
-import Tile from "components/Tile";
+import Section from "components/Section";
 import Divider from "components/Divider";
 
 export default function FeatureList() {
@@ -13,13 +13,13 @@ export default function FeatureList() {
   return (
     <>
       <Divider />
-      <Tile title="FEATURES">
+      <Section title="FEATURES">
         {target.features.map(name => (
           <div className="text-darker" key={name}>
             {name}
           </div>
         ))}
-      </Tile>
+      </Section>
     </>
   );
 }

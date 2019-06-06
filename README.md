@@ -9,19 +9,19 @@ Here is a list of actions / request types that are supported by the client. As t
 | ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                               |
 | ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                         |
 | ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                        |
-| ⬜️          | **EXEC**                  | Shell session executes a (powershell) command                        |
-| ⬜️          | **FILE**                  | Receive file from client/target                                      |
+| ✅           | **EXEC**                  | Shell session executes a (powershell) command                        |
+| ✅           | **FILE**                  | Receive file from client/target                                      |
 | ⬜️          | **FORCE_RESET**           | Forces the target to do a hard reset of the target's dragons service |
 | ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                              |
 | ⬜️          | **GET_VOLUME**            | Get audio volume                                                     |
-| ⬜️          | **LS**                    | List files and directories in a given directory                      |
+| ✅           | **LS**                    | List files and directories in a given directory                      |
 | ⬜️          | **NOTIFY**                | Display a notification to the user                                   |
 | ⬜️          | **PLAY_AUDIO_FILE**       | Play audio from target's local file                                  |
 | ⬜️          | **PLAY_AUDIO**            | Send audio file and play it                                          |
 | ⬜️          | **RECORD_AUDIO_START**    | Play audio                                                           |
 | ⬜️          | **RECORD_AUDIO_END**      | Stop recording audio,save it in a file and upload it                 |
 | ⬜️          | **RECORD_AUDIO_DURATION** | Equivalent of RECORD_AUDIO_START, sleep x seconds, RECORD_AUDIO_END  |
-| ⬜️          | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server               |
+| ✅           | **REQUEST_FILE**          | Requests file at a given path to be uploaded to server               |
 | ⬜️          | **RUN_EXECUTABLE**        | Run executable on the target                                         |
 | ⬜️          | **SET_VOLUME**            | Set audio volume                                                     |
 | ✅           | **SCREENSHOT**            | Screenshot a screen                                                  |

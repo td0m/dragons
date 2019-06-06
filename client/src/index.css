@@ -27,6 +27,9 @@
 .text-darker {
   opacity: 0.7;
 }
+.text-error {
+  color: #dd3636;
+}
 
 .tile {
   padding: 2px 8px;

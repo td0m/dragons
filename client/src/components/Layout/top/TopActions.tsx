@@ -1,6 +1,6 @@
 import React from "react";
 import Api, { ConnectionState } from "containers/Api";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
@@ -41,14 +41,11 @@ export default function TopActions() {
   return (
     <div style={{ display: "flex" }} className="text-darker">
       {actions.filter(supported).map(a => (
-        <IconButton
-          color="inherit"
-          size="small"
-          onClick={() => onClick(a)}
-          key={a.name}
-        >
-          {a.icon}
-        </IconButton>
+        <Tooltip title={a.name} key={a.name}>
+          <IconButton color="inherit" size="small" onClick={() => onClick(a)}>
+            {a.icon}
+          </IconButton>
+        </Tooltip>
       ))}
     </div>
   );

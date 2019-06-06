@@ -265,3 +265,29 @@ body {
 .droppable.dropping {
   background: var(--theme-bg);
 }
+
+.dot {
+  --size: 8px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+}
+.dot.-margin {
+  margin-left: 5px;
+}
+.dot.-red {
+  background: #dd3636;
+}
+.dot.-green {
+  background: #35ec72;
+}
+.dot.-yellow {
+  background: #d0ec35;
+}
+
+.flex {
+  display: flex;
+}
+.flex.-align-c {
+  align-items: center;
+}

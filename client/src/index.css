@@ -185,18 +185,22 @@ body {
 .react-grid-item.react-grid-placeholder {
   opacity: 0.4;
   transition-duration: 100ms;
-  z-index: 2;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+  user-select: all !important;
 }
 
 .fullflex {
   display: flex;
   width: 100%;
   height: 100%;
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+.scrollable {
+  overflow: auto;
+  scrollbar-color: var(--theme-bg) var(--theme-bg-dark);
+  scrollbar-width: thin;
 }
 
 .terminal-input {
@@ -205,4 +209,6 @@ body {
   color: inherit;
   font-family: inherit;
   width: 100%;
+  outline: none;
+  font-size: inherit;
 }

@@ -15,11 +15,17 @@ export default function Terminal() {
     <form
       onSubmit={onSubmit}
       style={{
-        alignItems: "center"
+        alignItems: "center",
+        userSelect: "initial"
       }}
       className="fullflex"
     >
-      <input className="terminal-input" type="text" {...input.bindToInput} />
+      <input
+        spellCheck={false}
+        className="terminal-input nodrag"
+        type="text"
+        {...input.bindToInput}
+      />
     </form>
   );
 }

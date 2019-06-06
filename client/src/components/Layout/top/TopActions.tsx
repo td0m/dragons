@@ -32,8 +32,6 @@ export default function TopActions() {
     api.send(action.action());
   };
 
-  console.log(api.target);
-
   return (
     <div style={{ display: "flex" }} className="text-darker">
       {actions.filter(supported).map(a => (

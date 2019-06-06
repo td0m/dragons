@@ -9,6 +9,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 
 import Api from "containers/Api";
 import Events from "containers/Events";
+import Stdout from "containers/Stdout";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,9 +26,11 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={5} dense>
       <Events.Provider>
-        <Api.Provider>
-          <App />
-        </Api.Provider>
+        <Stdout.Provider>
+          <Api.Provider>
+            <App />
+          </Api.Provider>
+        </Stdout.Provider>
       </Events.Provider>
     </SnackbarProvider>
   </ThemeProvider>,

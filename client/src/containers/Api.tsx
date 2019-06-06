@@ -5,6 +5,7 @@ import createContainer, {
 } from "@hook-state/core";
 import { useMemo } from "react";
 import Events from "./Events";
+import Stdout from "./Stdout";
 
 export enum ConnectionState {
   Connected = "CONNECTED",
@@ -47,6 +48,7 @@ const useApi = () => {
   const [target, setTarget] = useState<TargetDetails>(new TargetDetails());
   const password = useString("");
   const events = Events.use();
+  const stdout = Stdout.use();
 
   const send = (action: Action) => websocket.send(JSON.stringify(action));
 
@@ -89,6 +91,9 @@ const useApi = () => {
         break;
       case "FILE":
         setScreenshot(payload.bytes);
+        break;
+      case "EXEC":
+        stdout.add(payload);
         break;
     }
   };

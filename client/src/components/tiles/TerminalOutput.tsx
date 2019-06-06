@@ -7,9 +7,11 @@ export default function TerminalOutput() {
     <div className="full scrollable">
       {stdout.value.map((cmd, i) => (
         <div key={i}>
-          <div>{cmd.command}</div>
+          <div>> {cmd.command}</div>
           {cmd.output.map((line, j) => (
-            <div key={j}>{line}</div>
+            <div className="text-darker" key={j}>
+              {line}
+            </div>
           ))}
         </div>
       ))}

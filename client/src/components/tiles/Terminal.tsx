@@ -9,6 +9,7 @@ export default function Terminal() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     api.send({ type: "EXEC", payload: input.value });
+    input.set("");
   };
 
   return (

@@ -23,8 +23,8 @@ export default function Main() {
       { i: "terminal", x: 1, y: 0, w: 8, h: 1 },
       { i: "terminal-output", x: 1, y: 2, w: 8, h: 3 },
       { i: "file-explorer", x: 1, y: 6, w: 4, h: 8 }
-    ]
-    // { persist: "layouts" }
+    ],
+    { persist: `layouts-${api.target.name}` }
   );
   const tiles = [
     { component: <Terminal />, features: ["EXEC"], key: "terminal" },

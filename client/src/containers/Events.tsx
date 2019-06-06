@@ -34,11 +34,21 @@ const useEvents = () => {
         onClick: () => preview.setContent(<ByteImg data={action.payload} />)
       },
       {
-        name: "Save",
+        name: "Save Photo",
         icon: <DownloadIcon />,
         types: ["SCREENSHOT", "WEBCAM_SNAP"],
         onClick: () =>
           downloadBytes([base64ToBytes(action.payload)], action.type + ".jpg")
+      },
+      {
+        name: "Save File",
+        icon: <DownloadIcon />,
+        types: ["FILE"],
+        onClick: () =>
+          downloadBytes(
+            [base64ToBytes((action.payload as any).bytes)],
+            (action.payload as any).path
+          )
       }
     ];
 

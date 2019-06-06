@@ -4,6 +4,7 @@ import { IconButton } from "@material-ui/core";
 
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const actions = [
   {
@@ -15,6 +16,11 @@ const actions = [
     name: "WEBCAM_SNAP",
     action: () => ({ type: "WEBCAM_SNAP" }),
     icon: <PhotoCameraIcon />
+  },
+  {
+    name: "FORCE_RESET",
+    action: () => ({ type: "FORCE_RESET" }),
+    icon: <RefreshIcon />
   }
 ];
 

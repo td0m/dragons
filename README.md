@@ -11,7 +11,7 @@ Here is a list of actions / request types that are supported by the client. As t
 | ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                        |
 | ✅           | **EXEC**                  | Shell session executes a (powershell) command                        |
 | ✅           | **FILE**                  | Receive file from client/target                                      |
-| ⬜️          | **FORCE_RESET**           | Forces the target to do a hard reset of the target's dragons service |
+| ✅           | **FORCE_RESET**           | Forces the target to do a hard reset of the target's dragons service |
 | ⬜️          | **GET_DEVICE_INFO**       | Get device information (name, local ip)                              |
 | ⬜️          | **GET_VOLUME**            | Get audio volume                                                     |
 | ✅           | **LS**                    | List files and directories in a given directory                      |

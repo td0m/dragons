@@ -8,8 +8,11 @@ import Main from "components/Main";
 import TopActions from "components/Layout/top/TopActions";
 import FeatureList from "components/Layout/left/FeatureList";
 import TargetDetailsView from "components/Layout/left/TargetDetailsView";
+import Api, { ConnectionState } from "containers/Api";
 
 const App: React.FC = () => {
+  const api = Api.use();
+
   return (
     <div className="grid">
       <div className="top">
@@ -26,7 +29,7 @@ const App: React.FC = () => {
         <FeatureList />
       </div>
       <div className="main">
-        <Main />
+        {api.connectionState === ConnectionState.TargetConnected && <Main />}
       </div>
     </div>
   );

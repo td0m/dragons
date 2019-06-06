@@ -1,12 +1,14 @@
 import React from "react";
 import createContainer, { useState } from "@hook-state/core";
 import { useSnackbar } from "notistack";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import FullscreenIcon from "@material-ui/icons/Fullscreen";
 import DownloadIcon from "@material-ui/icons/VerticalAlignBottomRounded";
 import { Action } from "./Api";
 import { base64ToBytes, downloadBytes } from "../services/encoding";
+import Preview from "./Preview";
+import ByteImg from "components/ByteImg";
 
 const defaults = ["UPDATE_STATE"];
 const ignored = ["UPDATE_STATE", "LS"];
@@ -21,30 +23,41 @@ const getVariant = (type: string): "default" | "info" | "error" | "success" => {
 const useEvents = () => {
   const snackbar = useSnackbar();
   const [action, setAction] = useState<Action>({ type: "" });
+  const preview = Preview.use();
 
   const createAction = (action: Action) => (key: string) => {
-    const download = (
-      <IconButton
-        size="small"
-        color="inherit"
-        onClick={() =>
-          downloadBytes([base64ToBytes(action.payload)], "frame.jpg")
-        }
-      >
-        <DownloadIcon />
-      </IconButton>
-    );
-    const screenshotFullscreen = (
-      <IconButton size="small" color="inherit">
-        <FullscreenIcon />
-      </IconButton>
-    );
+    const buttons = [
+      {
+        name: "Preview",
+        icon: <FullscreenIcon />,
+        types: ["SCREENSHOT", "WEBCAM_SNAP"],
+        onClick: () => preview.setContent(<ByteImg data={action.payload} />)
+      },
+      {
+        name: "Save",
+        icon: <DownloadIcon />,
+        types: ["SCREENSHOT", "WEBCAM_SNAP"],
+        onClick: () =>
+          downloadBytes([base64ToBytes(action.payload)], action.type + ".jpg")
+      }
+    ];
 
     return (
       <>
-        {action.type === "SCREENSHOT" && screenshotFullscreen}
-        {(action.type === "SCREENSHOT" || action.type === "WEBCAM_SNAP") &&
-          download}
+        {buttons
+          .filter(b => b.types.indexOf(action.type) > -1)
+          .map(b => (
+            <Tooltip title={b.name}>
+              <IconButton
+                onClick={b.onClick}
+                key={b.name}
+                color="inherit"
+                size="small"
+              >
+                {b.icon}
+              </IconButton>
+            </Tooltip>
+          ))}
         <IconButton
           size="small"
           color="inherit"

@@ -11,6 +11,7 @@ import Api from "containers/Api";
 import Events from "containers/Events";
 import Stdout from "containers/Stdout";
 import Files from "containers/Files";
+import Preview from "containers/Preview";
 
 const theme = createMuiTheme({
   palette: {
@@ -26,15 +27,17 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <SnackbarProvider maxSnack={5} dense>
-      <Events.Provider>
-        <Stdout.Provider>
-          <Api.Provider>
-            <Files.Provider>
-              <App />
-            </Files.Provider>
-          </Api.Provider>
-        </Stdout.Provider>
-      </Events.Provider>
+      <Preview.Provider>
+        <Events.Provider>
+          <Stdout.Provider>
+            <Api.Provider>
+              <Files.Provider>
+                <App />
+              </Files.Provider>
+            </Api.Provider>
+          </Stdout.Provider>
+        </Events.Provider>
+      </Preview.Provider>
     </SnackbarProvider>
   </ThemeProvider>,
   document.getElementById("root")

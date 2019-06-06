@@ -9,9 +9,18 @@ import TopActions from "components/Layout/top/TopActions";
 import FeatureList from "components/Layout/left/FeatureList";
 import TargetDetailsView from "components/Layout/left/TargetDetailsView";
 import Api, { ConnectionState } from "containers/Api";
+import {
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  Button
+} from "@material-ui/core";
+import Preview from "containers/Preview";
 
 const App: React.FC = () => {
   const api = Api.use();
+  const preview = Preview.use();
 
   return (
     <div className="grid">
@@ -31,6 +40,18 @@ const App: React.FC = () => {
       <div className="main">
         {api.connectionState === ConnectionState.TargetConnected && <Main />}
       </div>
+      <Dialog
+        fullWidth
+        maxWidth={"xl"}
+        open={!!preview.content}
+        onClose={() => preview.setContent(null)}
+      >
+        <DialogTitle>Preview</DialogTitle>
+        <DialogContent>{preview.content}</DialogContent>
+        <DialogActions>
+          <Button onClick={() => preview.setContent(null)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

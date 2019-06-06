@@ -1,5 +1,5 @@
 import React from "react";
-import createContainer from "@hook-state/core";
+import createContainer, { useState } from "@hook-state/core";
 import { useSnackbar } from "notistack";
 import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
@@ -19,6 +19,7 @@ const getVariant = (type: string): "default" | "info" | "error" | "success" => {
 
 const useEvents = () => {
   const snackbar = useSnackbar();
+  const [action, setAction] = useState<Action>({ type: "" });
 
   const createAction = (action: Action) => (key: string) => {
     const download = (
@@ -55,6 +56,7 @@ const useEvents = () => {
   };
 
   const add = (action: Action) => {
+    setAction(action);
     if (action.type !== "PING" && action.type !== "UPDATE_STATE") {
       snackbar.enqueueSnackbar(action.type, {
         variant: getVariant(action.type),
@@ -65,7 +67,8 @@ const useEvents = () => {
   };
 
   return {
-    add
+    add,
+    action
   };
 };
 

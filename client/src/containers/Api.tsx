@@ -65,6 +65,7 @@ const useApi = () => {
     state.set(new State());
   };
   const onMessage = (ev: MessageEvent) => {
+    console.log(ev.data);
     const data = JSON.parse(ev.data);
     const { type, payload } = data;
     events.add(data);

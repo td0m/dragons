@@ -5,6 +5,7 @@ import { Responsive, WidthProvider, Layout } from "react-grid-layout";
 import { useState } from "@hook-state/core";
 import Terminal from "./tiles/Terminal";
 import TerminalOutput from "./tiles/TerminalOutput";
+import FileExplorer from "./tiles/FileExplorer";
 const GridLayout = WidthProvider(Responsive);
 
 export default function Main() {
@@ -20,7 +21,8 @@ export default function Main() {
   const [layouts, setLayouts] = useState<Layout[]>(
     [
       { i: "terminal", x: 1, y: 0, w: 8, h: 1 },
-      { i: "terminal-output", x: 1, y: 2, w: 8, h: 3 }
+      { i: "terminal-output", x: 1, y: 2, w: 8, h: 3 },
+      { i: "file-explorer", x: 1, y: 6, w: 4, h: 8 }
     ]
     // { persist: "layouts" }
   );
@@ -30,6 +32,11 @@ export default function Main() {
       component: <TerminalOutput />,
       features: ["EXEC"],
       key: "terminal-output"
+    },
+    {
+      component: <FileExplorer />,
+      features: ["FILE", "LS", "REQUEST_FILE"],
+      key: "file-explorer"
     }
   ];
 

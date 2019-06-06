@@ -10,6 +10,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import Api from "containers/Api";
 import Events from "containers/Events";
 import Stdout from "containers/Stdout";
+import Files from "containers/Files";
 
 const theme = createMuiTheme({
   palette: {
@@ -28,7 +29,9 @@ ReactDOM.render(
       <Events.Provider>
         <Stdout.Provider>
           <Api.Provider>
-            <App />
+            <Files.Provider>
+              <App />
+            </Files.Provider>
           </Api.Provider>
         </Stdout.Provider>
       </Events.Provider>

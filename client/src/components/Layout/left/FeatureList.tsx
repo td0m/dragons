@@ -1,7 +1,6 @@
 import React from "react";
 import Api, { ConnectionState } from "containers/Api";
 import Section from "components/Section";
-import Divider from "components/Divider";
 
 export default function FeatureList() {
   const { target, connectionState } = Api.use();
@@ -12,7 +11,6 @@ export default function FeatureList() {
 
   return (
     <>
-      <Divider />
       <Section title="FEATURES">
         {target.features.map(name => (
           <div className="text-darker" key={name}>

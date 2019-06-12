@@ -24,7 +24,7 @@ export default function Main() {
       { i: "terminal-output", x: 4, y: 1, w: 4, h: 3 },
       { i: "file-explorer", x: 0, y: 0, w: 4, h: 7 }
     ],
-    { persist: `layouts-${api.target.name}` }
+    {}
   );
   const tiles = [
     { component: <Terminal />, features: ["EXEC"], key: "terminal" },
@@ -48,7 +48,6 @@ export default function Main() {
           isDraggable
           isRearrangeable
           isResizable
-          className="layout"
           onLayoutChange={a => setLayouts(a)}
           cols={{ lg: 12, md: 12, sm: 6, xs: 4, xxs: 2 }}
           rowHeight={50}

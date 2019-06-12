@@ -17,15 +17,15 @@ export default function ManualAction() {
     <Section title="Manual Action">
       <input
         placeholder="Type"
-        className="bg-transparent focus:outline-0 w-full shadow"
+        className="bg-transparent text-darker w-full"
         {...typeInput.bindToInput}
       />
       <input
         placeholder="Payload"
-        className="terminal-input text-darker"
+        className="bg-transparent text-darker w-full"
         {...payloadInput.bindToInput}
       />
-      <button className="text-white" onClick={submitManual}>
+      <button className="p-1" onClick={submitManual}>
         Submit
       </button>
     </Section>

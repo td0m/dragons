@@ -56,11 +56,13 @@ export default function FileExplorer() {
     const path = getFullPath(file.name);
     return (
       <div
-        className="text-darker file-item"
+        className="text-darker flex items-center"
         key={file.name}
         onClick={() => (file.isFile ? download(path) : cd(path))}
       >
-        {file.isFile ? <FileIcon /> : <FolderIcon />}
+        <div className="mr-2">
+          {file.isFile ? <FileIcon /> : <FolderIcon />}
+        </div>
         {file.name}
       </div>
     );
@@ -86,24 +88,25 @@ export default function FileExplorer() {
   return (
     <div
       className={
-        "full scrollable droppable " + (isDragActive ? "dropping" : "")
+        "w-full h-full overflow-auto droppable " +
+        (isDragActive ? "dropping" : "")
       }
     >
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
-        <div className="file-explorer-nav">
+        <div className="flex items-center">
           <IconButton onClick={goBack} color="inherit" size="small">
             <ArrowBackIcon />
           </IconButton>
           <form className="spacer" onSubmit={handleSubmit}>
             <input
               type="text"
-              className="terminal-input"
+              className="bg-transparent w-full nodrag"
               {...input.bindToInput}
             />
           </form>
         </div>
-        <div className="file-explorer-content">
+        <div className="m-2">
           {currentDir.files && currentDir.files!.map(renderFile)}
         </div>
       </div>

@@ -1,268 +1,5 @@
-:root {
-  --theme-bg-dark: #14181f;
-  --theme-bg: #1c222c;
-  --theme-color: #8ebec0;
-  --theme-border: #2e4a52;
-
-  --theme-font-size: 14px;
-  --theme-font: "Roboto Mono", monospace;
-  --theme-font-display: "Major Mono Display", sans-serif;
-
-  --border: solid 1px var(--theme-border);
-}
-
-.font {
-  font-family: var(--theme-font);
-}
-.font-display {
-  font-family: var(--theme-font-display);
-}
-.font-bold {
-  font-weight: 500;
-}
-.font-thin {
-  font-weight: 300;
-}
-
-.text-darker {
-  opacity: 0.7;
-}
-.text-error {
-  color: #dd3636;
-}
-
-.section {
-  padding: 2px 8px;
-  text-overflow: clip;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-}
-.section-titlenav {
-  display: flex;
-  align-items: center;
-}
-.section-icon {
-  margin: 0 2px 0 0;
-  transition: all 0.2s ease;
-  transform: rotate(-90deg);
-}
-.section-icon.-closed {
-  transform: rotate(0deg);
-}
-.section-title {
-  font-weight: 500;
-  font-size: 1.1rem;
-  user-select: none;
-  cursor: pointer;
-}
-.section-content {
-  padding: 4px 6px;
-}
-
-.app-title {
-  font-size: 20px;
-}
-
-html,
-body {
-  font-family: var(--theme-font);
-  font-size: var(--theme-font-size);
-  background: var(--theme-bg);
-  color: var(--theme-color);
-}
-
 * {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.grid {
-  font-size: 13px;
-  color: var(--theme-color);
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 300px auto;
-  grid-template-rows: 40px auto;
-  grid-template-areas:
-    "left top"
-    "left main";
-}
-
-@media (max-width: 600px) {
-  .grid {
-    grid-template-columns: auto;
-    grid-template-rows: 40px 1fr, 1fr;
-    grid-template-areas: "top" "left" "main";
-  }
-}
-
-.top {
-  grid-area: top;
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 0 10px;
-  align-items: center;
-  border-bottom: var(--border);
-}
-.main {
-  grid-area: main;
-  border-radius: 3px;
-  position: relative; /* allows react-grid-layout to work in a css grid */
-}
-
-.left {
-  grid-area: left;
-  padding: 0 10px;
-  overflow: auto;
-  border-bottom: var(--border);
-  border-right: var(--border);
-}
-
-.clock {
-  user-select: none;
-  display: flex;
-  justify-content: center;
-  padding: 15px 0 8px;
-  font-size: 40px;
-}
-
-.target-item {
-  padding: 3px 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.target-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.target-item:active {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.MuiSnackbar-root {
-  margin-bottom: 10px;
-}
-
-.table {
-  text-transform: uppercase;
-}
-
-.react-grid-layout {
-  position: relative;
-  transition: height 200ms ease;
-}
-
-.react-grid-item {
-  will-change: transform, left, top;
-  background: var(--theme-bg-dark);
-  color: var(--theme-color);
-  position: relative;
-  overflow: hidden;
-  border-radius: 4px;
-  box-sizing: border-box;
-  padding: 5px;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.45);
-}
-.react-grid-item.resizing {
-  opacity: 0.9;
-  z-index: 10;
-}
-
-.react-resizable-handle {
-  display: block;
-  width: 12px;
-  height: 12px;
-  background: var(--theme-bg);
-  transition: all 0.2s ease;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-}
-.react-resizable-handle:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.react-grid-item.react-grid-placeholder {
-  opacity: 0.4;
-  transition-duration: 100ms;
-  user-select: all !important;
-}
-
-.fullflex {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-.full {
-  width: 100%;
-  height: 100%;
-}
-.scrollable {
-  overflow: auto;
-  scrollbar-color: var(--theme-bg) var(--theme-bg-dark);
-  scrollbar-width: thin;
-}
-
-.terminal-input {
-  border: none;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
-  width: 100%;
-  outline: none;
-  font-size: inherit;
-}
-
-.file-item {
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 2px 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 0.9rem;
-}
-.file-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.file-item:active {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.file-item svg {
-  padding-right: 5px;
-}
-
-.file-explorer-nav {
-  box-sizing: border-box;
-  padding: 2px 6px;
-  height: 30px;
-  width: 100%;
-  z-index: 1;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #0f1218;
-}
-
-.file-explorer-content {
-  margin-top: 30px;
-}
-
-.spacer {
-  flex: 1 1;
-}
-
-.droppable {
-  transition: all 0.2s ease;
-}
-.droppable.dropping {
-  background: var(--theme-bg);
+  outline: none !important;
 }
 
 .dot {
@@ -284,9 +21,30 @@ body {
   background: #d0ec35;
 }
 
-.flex {
-  display: flex;
+.section {
+  text-overflow: clip;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
-.flex.-align-c {
-  align-items: center;
+
+.section-icon {
+  transition: all 0.15s ease !important;
+  transform: rotate(-90deg);
+}
+.section-icon.-closed {
+  transform: rotate(0deg);
+}
+.section-title {
+  user-select: none;
+  cursor: pointer;
+}
+
+.text-darker {
+  opacity: 0.7;
+}
+
+button {
+  transition: all 0.2s ease;
+  outline: none;
 }

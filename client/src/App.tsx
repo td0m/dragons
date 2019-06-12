@@ -6,8 +6,6 @@ import NetworkStatus from "components/NetworkStatus";
 import TargetView from "components/TargetView";
 import Main from "components/Main";
 import TopActions from "components/Layout/top/TopActions";
-import FeatureList from "components/Layout/left/FeatureList";
-import TargetDetailsView from "components/Layout/left/TargetDetailsView";
 import Api, { ConnectionState } from "containers/Api";
 import {
   Dialog,
@@ -17,43 +15,38 @@ import {
   Button
 } from "@material-ui/core";
 import Preview from "containers/Preview";
-import ManualAction from "components/Layout/left/ManualAction";
+import LeftLayout from "components/Layout/left";
 
 const App: React.FC = () => {
   const api = Api.use();
   const preview = Preview.use();
 
+  const connected = api.connectionState === ConnectionState.TargetConnected;
+
   return (
-    <div className="grid">
-      <div className="top">
-        <div className="app-title font-display">DRAGons</div>
-        <TopActions />
+    <div className="w-screen h-screen bg-clay-500 text-clay-100 font-mono overflow-hidden">
+      <div className="flex items-center h-12 pl-4 pr-4 border-b border-clay-400">
+        <div className="font-display text-lg">DRAGons</div>
+        <div className="flex-1" />
+        {connected && <TopActions />}
       </div>
-      <div className="left">
-        <Clock />
-        <Divider />
-        <NetworkStatus />
-        <Divider />
-        <TargetView />
-        <TargetDetailsView />
-        <FeatureList />
-        <ManualAction />
+      <div className="flex flex-col md:flex-row h-full">
+        <div className="w-full md:h-full md:w-64 border-b md:border-r border-clay-400 p-2 overflow-auto">
+          <Clock />
+          <Divider />
+          <NetworkStatus />
+          <Divider />
+          <TargetView />
+          {connected && (
+            <>
+              <LeftLayout />
+            </>
+          )}
+        </div>
+        <div className="w-full md:h-full p-2 text-xs">
+          {connected && <Main />}
+        </div>
       </div>
-      <div className="main">
-        {api.connectionState === ConnectionState.TargetConnected && <Main />}
-      </div>
-      <Dialog
-        fullWidth
-        maxWidth={"xl"}
-        open={!!preview.content}
-        onClose={() => preview.setContent(null)}
-      >
-        <DialogTitle>Preview</DialogTitle>
-        <DialogContent>{preview.content}</DialogContent>
-        <DialogActions>
-          <Button onClick={() => preview.setContent(null)}>Close</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };

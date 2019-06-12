@@ -1,6 +1,5 @@
 import React from "react";
 import Api, { ConnectionState } from "containers/Api";
-import Divider from "components/Divider";
 import Section from "components/Section";
 import Table from "components/Table";
 
@@ -11,7 +10,6 @@ export default function TargetDetailsView() {
 
   return (
     <>
-      <Divider />
       <Section title="TARGET DETAILS">
         <Table
           data={{

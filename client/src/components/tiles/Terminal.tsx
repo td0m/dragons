@@ -24,17 +24,10 @@ export default function Terminal() {
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        alignItems: "center",
-        userSelect: "initial"
-      }}
-      className="fullflex"
-    >
+    <form onSubmit={onSubmit} className="flex w-full h-full items-center">
       <input
         spellCheck={false}
-        className="terminal-input nodrag"
+        className="w-full h-full bg-transparent nodrag"
         type="text"
         {...input.bindToInput}
       />

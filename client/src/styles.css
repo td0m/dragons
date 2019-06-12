@@ -1,3 +1,71 @@
+:root {
+  --clay-100: #8ebec0;
+  --clay-400: #2e4a52;
+  --clay-500: #1c222c;
+  --clay-900: #14181f;
+}
+
+/* :root {
+  --clay-900: #b5d7d8;
+  --clay-500: #e7e6eb;
+  --clay-400: #b3b3b8;
+  --clay-100: #14181f;
+} */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  scrollbar-color: theme("colors.clay.900") theme("colors.clay.500");
+  scrollbar-width: thin;
+}
+
+.react-grid-layout {
+  position: relative;
+  transition: height 200ms ease;
+}
+
+.react-grid-item {
+  will-change: transform, left, top;
+  background: var(--clay-900);
+  color: var(--clay-100);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 5px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.45);
+}
+.react-grid-item.resizing {
+  opacity: 0.9;
+  z-index: 10;
+}
+
+.react-resizable-handle {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: var(--clay-500);
+  transition: all 0.2s ease;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+}
+.react-resizable-handle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.react-grid-item.react-grid-placeholder {
+  opacity: 0.4;
+  transition-duration: 100ms;
+  user-select: all !important;
+}
+
+.droppable {
+  transition: all 0.2s ease;
+}
+.droppable.dropping {
+  background: var(--clay-400);
+}

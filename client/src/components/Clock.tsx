@@ -19,7 +19,7 @@ export default function Clock() {
 
   return (
     <>
-      <div className="clock">
+      <div className="flex justify-center select-none text-4xl">
         {h}:{m}:{s}
       </div>
     </>

@@ -26,9 +26,13 @@ export default function TargetView() {
   };
 
   const targets = api.state.targets.map(t => (
-    <div className="target-item text-darker" onClick={() => onClick(t)} key={t}>
+    <button
+      className="text-darker hover:bg-clay-400 w-full text-left pl-1 rounded"
+      onClick={() => onClick(t)}
+      key={t}
+    >
       {t}
-    </div>
+    </button>
   ));
 
   return (

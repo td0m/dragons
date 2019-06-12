@@ -22,17 +22,8 @@ export default function Table({ data, flipped }: TableProps) {
   return (
     <div>
       {Object.keys(data).map(key => (
-        <div
-          key={key}
-          style={{
-            padding: "2px 2px",
-            display: "flex",
-            justifyContent: "space-between"
-          }}
-        >
-          <div className="text-darker font-thin" style={{ userSelect: "none" }}>
-            {key}
-          </div>
+        <div key={key} className="flex justify-between items-center">
+          <div className="text-darker font-thin select-none">{key}</div>
           <div>{data[key]}</div>
         </div>
       ))}

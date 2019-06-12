@@ -9,7 +9,7 @@ export default function NetworkStatus() {
   const api = Api.use();
 
   const netstate = (
-    <div className="flex -align-c">
+    <div className="flex items-center">
       <div>{online ? "ONLINE" : "OFFLINE"}</div>
       <div className={`dot -margin ${online ? "-green" : "-red"}`} />
     </div>
@@ -26,7 +26,7 @@ export default function NetworkStatus() {
   }
 
   const connectionState = (
-    <div className="flex -align-c">
+    <div className="flex items-center">
       <div>{api.connectionState}</div>
       <div className={`dot -margin -${connectionColor}`} />
     </div>

@@ -12,11 +12,11 @@ export default function TerminalOutput() {
   }, [stdout.value]);
 
   return (
-    <div className="full scrollable">
+    <div className="w-full h-full overflow-auto">
       {stdout.value.map((cmd, i) => (
         <div key={i}>
           <div>> {cmd.command}</div>
-          <div className={`text-${cmd.success ? "darker" : "error"}`}>
+          <div className={`text-${cmd.success ? "darker" : "red-600"}`}>
             {cmd.output.map((line, j) => (
               <div key={j}>{line}</div>
             ))}

@@ -17,6 +17,7 @@ import {
   Button
 } from "@material-ui/core";
 import Preview from "containers/Preview";
+import ManualAction from "components/Layout/left/ManualAction";
 
 const App: React.FC = () => {
   const api = Api.use();
@@ -36,6 +37,7 @@ const App: React.FC = () => {
         <TargetView />
         <TargetDetailsView />
         <FeatureList />
+        <ManualAction />
       </div>
       <div className="main">
         {api.connectionState === ConnectionState.TargetConnected && <Main />}

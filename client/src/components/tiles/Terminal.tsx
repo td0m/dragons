@@ -27,7 +27,7 @@ export default function Terminal() {
     <form onSubmit={onSubmit} className="flex w-full h-full items-center">
       <input
         spellCheck={false}
-        className="w-full h-full bg-transparent nodrag"
+        className="w-full bg-transparent nodrag"
         type="text"
         {...input.bindToInput}
       />

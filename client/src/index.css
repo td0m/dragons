@@ -66,7 +66,6 @@
 
 html,
 body {
-  margin: 0;
   font-family: var(--theme-font);
   font-size: var(--theme-font-size);
   background: var(--theme-bg);

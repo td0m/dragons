@@ -24,7 +24,7 @@ export default function Main() {
       { i: "Terminal Output", x: 4, y: 1, w: 4, h: 3 },
       { i: "File Explorer", x: 0, y: 0, w: 4, h: 7 }
     ],
-    {}
+    { persist: `layout-${api.target.name}` }
   );
   const tiles = [
     { component: <Terminal />, features: ["EXEC"], key: "Terminal" },

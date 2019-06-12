@@ -22,11 +22,11 @@ export default function Main() {
 
   const [layouts, setLayouts] = useState<Layout[]>(
     [
-      { i: "Terminal", x: 4, y: 0, w: 4, h: 1 },
-      { i: "Terminal Output", x: 4, y: 1, w: 4, h: 3 },
-      { i: "File Explorer", x: 0, y: 0, w: 4, h: 7 },
-      { i: "Screenshot", x: 8, y: 0, w: 4, h: 4 },
-      { i: "Webcam", x: 8, y: 4, w: 4, h: 4 }
+      { i: "Terminal", x: 4, y: 0, w: 4, h: 2 },
+      { i: "Terminal Output", x: 4, y: 1, w: 4, h: 6 },
+      { i: "File Explorer", x: 0, y: 0, w: 4, h: 14 },
+      { i: "Screenshot", x: 8, y: 0, w: 4, h: 8 },
+      { i: "Webcam", x: 8, y: 4, w: 4, h: 8 }
     ],
     { persist: `layout-${api.target.name}` }
   );
@@ -64,7 +64,7 @@ export default function Main() {
           isResizable
           onLayoutChange={a => setLayouts(a)}
           cols={{ lg: 12, md: 12, sm: 6, xs: 4, xxs: 2 }}
-          rowHeight={60}
+          rowHeight={25}
           layouts={{
             lg: layouts
           }}

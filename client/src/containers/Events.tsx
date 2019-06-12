@@ -57,7 +57,7 @@ const useEvents = () => {
         {buttons
           .filter(b => b.types.indexOf(action.type) > -1)
           .map(b => (
-            <Tooltip title={b.name}>
+            <Tooltip key={b.name} title={b.name}>
               <IconButton
                 onClick={b.onClick}
                 key={b.name}

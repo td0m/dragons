@@ -6,6 +6,8 @@ import { useState } from "@hook-state/core";
 import Terminal from "./tiles/Terminal";
 import TerminalOutput from "./tiles/TerminalOutput";
 import FileExplorer from "./tiles/FileExplorer";
+import ImageView from "./tiles/ImageView";
+
 const GridLayout = WidthProvider(Responsive);
 
 export default function Main() {
@@ -22,7 +24,9 @@ export default function Main() {
     [
       { i: "Terminal", x: 4, y: 0, w: 4, h: 1 },
       { i: "Terminal Output", x: 4, y: 1, w: 4, h: 3 },
-      { i: "File Explorer", x: 0, y: 0, w: 4, h: 7 }
+      { i: "File Explorer", x: 0, y: 0, w: 4, h: 7 },
+      { i: "Screenshot", x: 8, y: 0, w: 4, h: 4 },
+      { i: "Webcam", x: 8, y: 4, w: 4, h: 4 }
     ],
     { persist: `layout-${api.target.name}` }
   );
@@ -37,6 +41,16 @@ export default function Main() {
       component: <FileExplorer />,
       features: ["FILE", "LS", "REQUEST_FILE"],
       key: "File Explorer"
+    },
+    {
+      component: <ImageView event="SCREENSHOT" />,
+      features: ["SCREENSHOT"],
+      key: "Screenshot"
+    },
+    {
+      component: <ImageView event="WEBCAM_SNAP" />,
+      features: ["WEBCAM_SNAP"],
+      key: "Webcam"
     }
   ];
 

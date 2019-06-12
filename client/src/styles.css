@@ -3,6 +3,7 @@
   --clay-400: #2e4a52;
   --clay-500: #1c222c;
   --clay-900: #14181f;
+  --clay-950: #121418;
 }
 
 /* :root {
@@ -34,7 +35,6 @@
   overflow: hidden;
   border-radius: 4px;
   box-sizing: border-box;
-  padding: 5px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.45);
 }
 .react-grid-item.resizing {

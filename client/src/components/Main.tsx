@@ -20,23 +20,23 @@ export default function Main() {
 
   const [layouts, setLayouts] = useState<Layout[]>(
     [
-      { i: "terminal", x: 4, y: 0, w: 4, h: 1 },
-      { i: "terminal-output", x: 4, y: 1, w: 4, h: 3 },
-      { i: "file-explorer", x: 0, y: 0, w: 4, h: 7 }
+      { i: "Terminal", x: 4, y: 0, w: 4, h: 1 },
+      { i: "Terminal Output", x: 4, y: 1, w: 4, h: 3 },
+      { i: "File Explorer", x: 0, y: 0, w: 4, h: 7 }
     ],
     {}
   );
   const tiles = [
-    { component: <Terminal />, features: ["EXEC"], key: "terminal" },
+    { component: <Terminal />, features: ["EXEC"], key: "Terminal" },
     {
       component: <TerminalOutput />,
       features: ["EXEC"],
-      key: "terminal-output"
+      key: "Terminal Output"
     },
     {
       component: <FileExplorer />,
       features: ["FILE", "LS", "REQUEST_FILE"],
-      key: "file-explorer"
+      key: "File Explorer"
     }
   ];
 
@@ -50,7 +50,7 @@ export default function Main() {
           isResizable
           onLayoutChange={a => setLayouts(a)}
           cols={{ lg: 12, md: 12, sm: 6, xs: 4, xxs: 2 }}
-          rowHeight={50}
+          rowHeight={60}
           layouts={{
             lg: layouts
           }}
@@ -58,7 +58,22 @@ export default function Main() {
           {tiles
             .filter(t => features(t.features))
             .map(tile => (
-              <div key={tile.key}>{tile.component}</div>
+              <div key={tile.key}>
+                <div className="w-full h-full relative">
+                  <div
+                    className="w-full flex items-center bg-clay-950 p-2"
+                    style={{ height: 25 }}
+                  >
+                    {tile.key}
+                  </div>
+                  <div
+                    className="overflow-auto w-full"
+                    style={{ height: "calc(100% - 25px)" }}
+                  >
+                    {tile.component}
+                  </div>
+                </div>
+              </div>
             ))}
         </GridLayout>
       </div>

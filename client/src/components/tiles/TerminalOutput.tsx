@@ -12,7 +12,7 @@ export default function TerminalOutput() {
   }, [stdout.value]);
 
   return (
-    <div className="w-full h-full overflow-auto">
+    <>
       {stdout.value.map((cmd, i) => (
         <div key={i}>
           <div>> {cmd.command}</div>
@@ -24,6 +24,6 @@ export default function TerminalOutput() {
           <div ref={bottom} />
         </div>
       ))}
-    </div>
+    </>
   );
 }

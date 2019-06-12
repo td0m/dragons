@@ -55,8 +55,8 @@ export default function FileExplorer() {
   const renderFile = (file: FileOrDirectory) => {
     const path = getFullPath(file.name);
     return (
-      <div
-        className="text-darker flex items-center"
+      <button
+        className="text-darker flex items-center w-full hover:bg-clay-950"
         key={file.name}
         onClick={() => (file.isFile ? download(path) : cd(path))}
       >
@@ -64,7 +64,7 @@ export default function FileExplorer() {
           {file.isFile ? <FileIcon /> : <FolderIcon />}
         </div>
         {file.name}
-      </div>
+      </button>
     );
   };
 
@@ -94,11 +94,11 @@ export default function FileExplorer() {
     >
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
-        <div className="flex items-center">
+        <div className="flex items-center bg-clay-950">
           <IconButton onClick={goBack} color="inherit" size="small">
             <ArrowBackIcon />
           </IconButton>
-          <form className="spacer" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmit}>
             <input
               type="text"
               className="bg-transparent w-full nodrag"

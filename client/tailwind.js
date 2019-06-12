@@ -10,7 +10,8 @@ module.exports = {
           "100": "var(--clay-100)",
           "400": "var(--clay-400)",
           "500": "var(--clay-500)",
-          "900": "var(--clay-900)"
+          "900": "var(--clay-900)",
+          "950": "var(--clay-950)"
         }
       }
     }

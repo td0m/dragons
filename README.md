@@ -6,8 +6,8 @@ Here is a list of actions / request types that are supported by the client. As t
 
 | Implemented? | Type                      | Description                                                          |
 | ------------ | ------------------------- | -------------------------------------------------------------------- |
-| ⬜️          | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                               |
-| ⬜️          | **DUMP_KEY_LOG**          | Dump key log                                                         |
+| ✅           | **DUMP_CLIPBOARD_LOG**    | Dump the clipboard log                                               |
+| ✅           | **DUMP_KEY_LOG**          | Dump key log                                                         |
 | ⬜️          | **DUMP_WINDOW_LOG**       | Window logger                                                        |
 | ✅           | **EXEC**                  | Shell session executes a (powershell) command                        |
 | ✅           | **FILE**                  | Receive file from client/target                                      |

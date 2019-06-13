@@ -8,7 +8,13 @@ import { Action } from "./Api";
 import { base64ToBytes, downloadBytes } from "../services/encoding";
 
 const defaults = ["UPDATE_STATE"];
-const ignored = ["UPDATE_STATE", "LS"];
+const ignored = [
+  "UPDATE_STATE",
+  "LS",
+  "DUMP_CLIPBOARD_LOG",
+  "DUMP_KEY_LOG",
+  "DUMP_WINDOW_LOG"
+];
 
 const getVariant = (type: string): "default" | "info" | "error" | "success" => {
   if (type === "TARGET_DISCONNECTED") return "error";

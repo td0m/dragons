@@ -9,6 +9,7 @@ import { IconButton } from "@material-ui/core";
 import { useString } from "@hook-state/core";
 
 import { useDropzone, DropEvent } from "react-dropzone";
+import Tile from "./Tile";
 
 function getBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -86,30 +87,32 @@ export default function FileExplorer() {
   };
 
   return (
-    <div
-      className={
-        "w-full h-full overflow-auto droppable " +
-        (isDragActive ? "dropping" : "")
-      }
-    >
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <div className="flex items-center bg-clay-950">
-          <IconButton onClick={goBack} color="inherit" size="small">
-            <ArrowBackIcon />
-          </IconButton>
-          <form className="w-full" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className="bg-transparent w-full nodrag"
-              {...input.bindToInput}
-            />
-          </form>
-        </div>
-        <div className="m-2">
-          {currentDir.files && currentDir.files!.map(renderFile)}
+    <Tile title="File Explorer">
+      <div
+        className={
+          "w-full h-full overflow-auto droppable " +
+          (isDragActive ? "dropping" : "")
+        }
+      >
+        <div {...getRootProps({ className: "dropzone" })}>
+          <input {...getInputProps()} />
+          <div className="flex items-center bg-clay-950">
+            <IconButton onClick={goBack} color="inherit" size="small">
+              <ArrowBackIcon />
+            </IconButton>
+            <form className="w-full" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="bg-transparent w-full nodrag"
+                {...input.bindToInput}
+              />
+            </form>
+          </div>
+          <div className="m-2">
+            {currentDir.files && currentDir.files!.map(renderFile)}
+          </div>
         </div>
       </div>
-    </div>
+    </Tile>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Stdout from "containers/Stdout";
+import Tile from "./Tile";
 
 export default function TerminalOutput() {
   const stdout = Stdout.use();
@@ -12,7 +13,7 @@ export default function TerminalOutput() {
   }, [stdout.value]);
 
   return (
-    <>
+    <Tile title="Terminal Output">
       {stdout.value.map((cmd, i) => (
         <div key={i}>
           <div>> {cmd.command}</div>
@@ -24,6 +25,6 @@ export default function TerminalOutput() {
           <div ref={bottom} />
         </div>
       ))}
-    </>
+    </Tile>
   );
 }

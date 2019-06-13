@@ -2,6 +2,7 @@ import React, { FormEvent } from "react";
 import Api from "containers/Api";
 import { useString } from "@hook-state/core";
 import Stdout from "containers/Stdout";
+import Tile from "./Tile";
 
 export default function Terminal() {
   const api = Api.use();
@@ -24,13 +25,15 @@ export default function Terminal() {
   };
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full h-full items-center">
-      <input
-        spellCheck={false}
-        className="w-full bg-transparent nodrag"
-        type="text"
-        {...input.bindToInput}
-      />
-    </form>
+    <Tile title="Terminal">
+      <form onSubmit={onSubmit} className="flex w-full h-full items-center">
+        <input
+          spellCheck={false}
+          className="w-full bg-transparent nodrag"
+          type="text"
+          {...input.bindToInput}
+        />
+      </form>
+    </Tile>
   );
 }

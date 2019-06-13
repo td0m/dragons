@@ -1,10 +1,16 @@
 import React, { useEffect } from "react";
-import Api from "containers/Api";
 import Events from "containers/Events";
 import { useState } from "@hook-state/core";
 import ByteImg from "components/ByteImg";
+import Tile from "./Tile";
 
-export default function ImageView({ event }: { event: string }) {
+export default function ImageView({
+  event,
+  name
+}: {
+  event: string;
+  name: string;
+}) {
   const events = Events.use();
   const [img, setImg] = useState("");
 
@@ -14,5 +20,7 @@ export default function ImageView({ event }: { event: string }) {
     }
   }, [events.action]);
 
-  return <div>{img && <ByteImg data={img} className="w-full" />}</div>;
+  return (
+    <Tile title={name}>{img && <ByteImg data={img} className="w-full" />}</Tile>
+  );
 }

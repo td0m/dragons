@@ -1,5 +1,8 @@
 # Dragons
 
+![screenshot 1](./docs/screenshots/s1.png)
+![screenshot 2](./docs/screenshots/s2.png)
+
 ## Actions
 
 Here is a list of actions / request types that are supported by the client. As the server is just be a simple framework allowing clients and targets to communicate with each other, each one of those features only need to be implemented by the client and the target. The following table only shows whether the feature has been implemented on the client, the built-in Go-based target is not included in the following table.
